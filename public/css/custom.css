@@ -1,0 +1,85 @@
+body {
+    font-family:
+        "Source Sans 3",
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+.login-page {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.42)),
+        url("../images/login-background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--bs-body-bg);
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.login-box {
+    width: 360px;
+}
+
+.login-box .card {
+    background-color: var(--bs-card-bg);
+    border: 1px solid var(--bs-card-border-color);
+    border-radius: 0.25rem;
+    box-shadow:
+        0 0 1px rgba(0, 0, 0, 0.125),
+        0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.login-box .card.card-outline {
+    border-top: 3px solid var(--bs-primary);
+}
+
+.login-box .card-header {
+    border-bottom: 1px solid var(--bs-card-border-color);
+    background-color: transparent;
+    padding: 1.5rem 1rem;
+}
+
+.login-card-body {
+    background-color: transparent;
+    border-radius: 0;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    padding: 1.5rem;
+}
+
+.login-logo-link {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+.login-logo-img {
+    max-height: 120px;
+    object-fit: contain;
+}
+
+.login-title-primary {
+    color: #1e3a8a;
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 1.6rem;
+}
+
+.login-title-secondary {
+    font-size: 1.6rem;
+}
+
+.login-input-icon-at {
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+.login-input-icon-key {
+    font-size: 1.15rem;
+}
