@@ -1,16 +1,16 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
     <div class="sidebar-wrapper">
-        <nav class="mt-2">
+        <nav class="mt-1">
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
-                        class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        @class(['nav-link', 'sidebar-level-1-link', 'active' => request()->routeIs('dashboard')])>
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li @class(['nav-item', 'menu-open' => request()->is('masters*')])>
+                    <a href="#" @class(['nav-link', 'sidebar-level-1-link', 'active' => request()->is('masters*')])>
                         <i class="nav-icon bi bi-folder-fill"></i>
                         <p>
                             Masters
@@ -19,7 +19,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('masters.lqms') }}"
+                                @class(['nav-link', 'active' => request()->routeIs('masters.lqms')])>
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>LQMs</p>
                             </a>
@@ -77,7 +78,7 @@
 
                 <!-- Sales -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link sidebar-level-1-link">
                         <i class="nav-icon bi bi-cart-fill"></i>
                         <p>
                             Sales
@@ -114,7 +115,7 @@
 
                 <!-- CSC -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link sidebar-level-1-link">
                         <i class="nav-icon bi bi-headset"></i>
                         <p>
                             CSC
@@ -151,7 +152,7 @@
 
                 <!-- Technical -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link sidebar-level-1-link">
                         <i class="nav-icon bi bi-tools"></i>
                         <p>
                             Technical
@@ -200,7 +201,7 @@
 
                 <!-- Activities -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link sidebar-level-1-link">
                         <i class="nav-icon bi bi-list-task"></i>
                         <p>
                             Activities

@@ -13,17 +13,15 @@
         <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                    <img src="{{ asset('images/user.png') }}" class="user-image rounded-circle shadow"
-                        alt="User Image">
+                    <img src="{{ asset('images/user.png') }}" class="user-image rounded-circle shadow" alt="User Image">
                     <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                     <li class="user-header bg-primary text-white p-3 text-center">
-                        <img src="{{ asset('images/user.png') }}" class="rounded-circle shadow mb-2"
-                            style="width: 80px;" alt="User Image">
+                        <img src="{{ asset('images/user.png') }}" class="rounded-circle shadow mb-2" alt="User Image">
                         <p>
                             {{ auth()->user()->name }}
-                            <small class="d-block text-white-50">Member since
+                            <small>Member since
                                 {{ auth()->user()->created_at->format('M. Y') }}</small>
                         </p>
                     </li>
