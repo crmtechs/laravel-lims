@@ -14,12 +14,12 @@
         <div class="card-body login-card-body bg-white p-4">
             <form wire:submit.prevent="login">
                 @if ($errorMessage)
-                    <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 p-3 mb-3 position-relative rounded shadow-sm"
+                    <div wire:loading.remove wire:target="login" class="alert alert-danger alert-dismissible bg-danger text-white border-0 p-3 mb-3 position-relative rounded shadow-sm"
                         role="alert">
                         <div class="d-flex align-items-center gap-2 mb-1">
                             <h5 class="text-white"><i class="bi bi-ban text-white fs-5 me-2"></i> Error!</h5>
                         </div>
-                        <div class="small">{{ $errorMessage }}</div>
+                        <div>{{ $errorMessage }}</div>
                         <button type="button" wire:click="$set('errorMessage', '')"
                             class="btn-close btn-close-white position-absolute top-0 end-0 m-0"
                             aria-label="Close"></button>
