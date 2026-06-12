@@ -1,9 +1,9 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
     <div class="sidebar-wrapper">
         <nav class="mt-1">
-            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="true">
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('dashboard') }}" wire:navigate
                         @class(['nav-link', 'sidebar-level-1-link', 'active' => request()->routeIs('dashboard')])>
                         <i class="nav-icon bi bi-speedometer"></i>
                         <p>Dashboard</p>
@@ -19,7 +19,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('masters.lqms') }}"
+                            <a href="{{ route('masters.lqms') }}" wire:navigate
                                 @class(['nav-link', 'active' => request()->routeIs('masters.lqms')])>
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>LQMs</p>
