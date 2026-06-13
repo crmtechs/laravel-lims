@@ -1,4 +1,4 @@
-<nav class="app-header navbar navbar-expand bg-body shadow-sm">
+<nav class="app-header navbar navbar-expand bg-body shadow-sm sticky-top">
     <div class="container-fluid">
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -6,9 +6,19 @@
                     <i class="bi bi-list"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-md-block">
-                <a href="#" class="nav-link">Home</a>
-            </li>
+            @if (request()->routeIs('dashboard'))
+                <li class="nav-item d-none d-md-block">
+                    <a href="{{ route('dashboard') }}" class="nav-link" wire:navigate>Dashboard</a>
+                </li>
+            @endif
+            @if (request()->routeIs('masters.lqms*'))
+                <li class="nav-item d-none d-md-block">
+                    <a href="{{ route('masters.lqms') }}" @class(['nav-link', 'active' => request()->routeIs('masters.lqms', 'masters.lqms.show')]) wire:navigate>LQMs</a>
+                </li>
+                <li class="nav-item d-none d-md-block">
+                    <a href="{{ route('masters.lqms.create') }}" @class(['nav-link', 'active' => request()->routeIs('masters.lqms.create', 'masters.lqms.edit')]) wire:navigate>Create LQM</a>
+                </li>
+            @endif
         </ul>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown user-menu">

@@ -3,7 +3,18 @@
 @endpush
 
 <div>
-    <!-- Welcome Info -->
+    <div class="app-content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="mb-0">Dashboard</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-content">
+        <div class="container-fluid">
+            <!-- Welcome Info -->
     <div class="row">
         <div class="col-12">
             <div class="card mb-4 shadow-sm border-0">
@@ -54,6 +65,7 @@
                     <span class="info-box-number">0</span>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>

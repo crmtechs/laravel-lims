@@ -183,3 +183,11 @@ body {
 .sidebar-menu .nav-link.active i {
     color: #ffffff !important;
 }
+
+.form-control-view {
+    min-height: calc(1.5em + 0.75rem + 2px);
+}
+
+.min-h-5rem {
+    min-height: 5rem;
+}
