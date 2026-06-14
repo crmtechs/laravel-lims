@@ -1,12 +1,11 @@
+@push('scripts')
+    <script src="{{ asset('js/masters/lqms/show.js') }}?v={{ filemtime(public_path('js/masters/lqms/show.js')) }}"></script>
+@endpush
 <div>
     <div class="app-content pt-4 pb-3">
         <div class="container-fluid">
-            @if (session()->has('error'))
-                <div class="alert alert-danger alert-dismissible fade show mb-4 border-0 shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            @if (session()->has('success') || session()->has('error'))
+                <div x-data="lqmShowToast('{{ addslashes(session('success')) }}', '{{ addslashes(session('error')) }}')"></div>
             @endif
 
             <!-- Record header and action bar -->
@@ -88,7 +87,7 @@
                         <!-- Row 4 -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Status</label>
-                            <div class="form-control form-control-view bg-light">{{ $lqm->status_id ?: '' }}</div>
+                            <div class="form-control form-control-view bg-light">{{ $lqm->status ?: '' }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">Assigned to</label>
@@ -111,7 +110,12 @@
             <!-- Revision History Subpanel -->
             <div class="card card-secondary card-outline mt-4">
                 <div class="card-header">
-                    <h3 class="card-title fw-semibold"><i class="bi bi-clock-history me-2"></i>Revision History</h3>
+                    <h3 class="card-title fw-semibold mb-0 mt-1"><i class="bi bi-clock-history me-2"></i>Revision History</h3>
+                    <div class="btn-toolbar gap-2 float-end">
+                        <a href="{{ route('masters.lqms.revision.create', $lqm->uuid) }}" wire:navigate class="btn btn-sm btn-primary">
+                            <i class="bi bi-plus-lg me-1"></i> Create
+                        </a>
+                    </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -123,18 +127,24 @@
                                     <th>Revision</th>
                                     <th>Date Created</th>
                                     <th>Created By</th>
-                                    <th class="text-center" style="width: 100px;">Action</th>
+                                    <th class="text-center" style="width: 100px;">Download</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($lqm_revisions as $revision)
                                     <tr>
-                                        <td class="align-middle">{{ $revision->file_name }}</td>
+                                        <td class="align-middle">
+                                            @if($revision->file_name)
+                                                <a href="{{ route('masters.lqms.revision.show', ['uuid' => $lqm->uuid, 'revisionUuid' => $revision->uuid]) }}" wire:navigate class="text-decoration-none">
+                                                    {{ $revision->file_name }}
+                                                </a>
+                                            @endif
+                                        </td>
                                         <td class="align-middle text-break">{{ $revision->change_log }}</td>
-                                        <td class="align-middle fw-bold">
+                                        <td class="align-middle">
                                             {{ $revision->revision }}
                                             @if($lqm->lqms_masters_revision_uuid === $revision->uuid)
-                                                <span class="badge bg-success ms-2">Active</span>
+                                                <span class="badge bg-success ms-2">Latest</span>
                                             @endif
                                         </td>
                                         <td class="align-middle">{{ $revision->created_at->format('d/m/Y H:i') }}</td>
@@ -160,7 +170,4 @@
             </div>
         </div>
     </div>
-    @push('scripts')
-        <script src="{{ asset('js/masters/lqms/show.js') }}?v={{ filemtime(public_path('js/masters/lqms/show.js')) }}"></script>
-    @endpush
 </div>

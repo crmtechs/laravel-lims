@@ -1,3 +1,7 @@
+@push('scripts')
+<script src="{{ asset('js/masters/lqms/form.js') }}?v={{ filemtime(public_path('js/masters/lqms/form.js')) }}"></script>
+@endpush
+
 <form wire:submit.prevent="save">
     <!-- Top Header block using AdminLTE 4 callout -->
     <div class="callout callout-primary bg-white rounded shadow-sm w-100 d-flex align-items-center justify-content-between mb-4">
@@ -22,7 +26,7 @@
     </div>
 
     <!-- Details Card with primary header -->
-    <div class="card card-secondary card-outline">
+    <div class="card card-primary card-outline">
         <div class="card-header">
             <h3 class="card-title fw-semibold">LQM Details</h3>
         </div>
@@ -30,16 +34,26 @@
             <div class="row">
                 <!-- Row 1 -->
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">File Name <span class="text-danger">*</span></label>
-                    <input wire:model="file_name" type="file" class="form-control @error('file_name') is-invalid @enderror">
-                    <div wire:loading wire:target="file_name" class="text-primary small mt-1">
-                        <i class="spinner-border spinner-border-sm"></i> Staging file...
-                    </div>
-                    @error('file_name')
-                        <div class="text-danger small mt-1">{{ $message }}</div>
-                    @enderror
-                    @if (!empty($file_path) && !$file_name)
-                        <div class="small text-secondary mt-1">Current file: {{ $existing_file_name ?? $document_name }}</div>
+                    <label class="form-label fw-bold">File Name @if(!isset($formTitle) || $formTitle !== 'Edit')<span class="text-danger">*</span>@endif</label>
+                    @if(isset($formTitle) && $formTitle === 'Edit')
+                        @if (!empty($file_path))
+                            <div class="input-group">
+                                <div class="form-control form-control-view bg-light text-truncate">{{ $existing_file_name ?? 'No file uploaded' }}</div>
+                                <a wire:click="downloadFile" class="input-group-text text-decoration-none" role="button" style="cursor: pointer;" title="Download">
+                                    <i class="bi bi-download me-1"></i> Download
+                                </a>
+                            </div>
+                        @else
+                            <div class="form-control form-control-view bg-light text-truncate">No file uploaded</div>
+                        @endif
+                    @else
+                        <input wire:model="file_name" type="file" class="form-control @error('file_name') is-invalid @enderror">
+                        <div wire:loading wire:target="file_name" class="text-primary small mt-1">
+                            <i class="spinner-border spinner-border-sm"></i> Staging file...
+                        </div>
+                        @error('file_name')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
                     @endif
                 </div>
                 <div class="col-md-6 mb-3">
@@ -93,28 +107,28 @@
                 <!-- Row 4 -->
                 <div class="col-md-6 mb-3">
                     <label class="form-label fw-bold">Status <span class="text-danger">*</span></label>
-                    <select wire:model="status_id" class="form-select @error('status_id') is-invalid @enderror">
-                        <option value="">Select Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Draft">Draft</option>
-                        <option value="Expired">Expired</option>
-                        <option value="Under Review">Under Review</option>
-                    </select>
-                    @error('status_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                    <div wire:ignore x-data="choicesSelect('status')">
+                        <select x-ref="select" class="form-control @error('status') is-invalid @enderror">
+                            @foreach(config('dropdowns.document_status_list') as $key => $label)
+                                <option value="{{ $key }}" @if($status == $key) selected @endif>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('status')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label fw-bold">Assigned User <span class="text-danger">*</span></label>
-                    <select wire:model="assigned_user_id"
-                        class="form-select @error('assigned_user_id') is-invalid @enderror">
-                        <option value="">Select User</option>
-                        @foreach ($users as $user)
-                            <option value="{{ $user->uuid }}">{{ $user->name }}</option>
-                        @endforeach
-                    </select>
+                    <div wire:ignore x-data="choicesSelect('assigned_user_id')">
+                        <select x-ref="select" class="form-control @error('assigned_user_id') is-invalid @enderror">
+                            @foreach ($users as $user)
+                                <option value="{{ $user->uuid }}" @if($assigned_user_id == $user->uuid) selected @endif>{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     @error('assigned_user_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
 

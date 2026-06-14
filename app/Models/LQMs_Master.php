@@ -24,7 +24,7 @@ class LQMs_Master extends Model
         'description',
         'publish_date',
         'expiration_date',
-        'status_id',
+        'status',
         'assigned_user_id',
         'lqms_masters_revision_uuid',
         'created_user_id',

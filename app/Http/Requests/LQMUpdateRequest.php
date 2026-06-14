@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class LQMUpdateRequest extends FormRequest
 {
     public function authorize(): bool
@@ -19,21 +19,19 @@ class LQMUpdateRequest extends FormRequest
             'description' => 'nullable|string',
             'publish_date' => 'nullable|date',
             'expiration_date' => 'nullable|date',
-            'status_id' => 'required|string',
+            'status' => ['required', Rule::in(array_keys(config('dropdowns.document_status_list')))],
             'assigned_user_id' => 'nullable|exists:users,uuid',
-            'file_name' => 'nullable|file|max:10240',
-            'revision' => 'required_with:file_name|nullable|string|max:255',
+            'revision' => 'required|string|max:255',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'file_name.required' => 'Please select file.',
             'revision.required' => 'Please enter revision.',
             'document_name.required' => 'Please enter document name.',
             'publish_date.required' => 'Please enter publish date.',
-            'status_id.required' => 'Please select status.',
+            'status.required' => 'Please select status.',
             'assigned_user_id.required' => 'Please select assigned user.',
         ];
     }

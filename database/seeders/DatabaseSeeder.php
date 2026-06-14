@@ -17,11 +17,32 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'username' => 'testuser',
-            'status' => 'active',
-        ]);
+        $users = [
+            [
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+                'username' => 'testuser',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Hiren Darji',
+                'email' => 'hiren.darji@example.com',
+                'username' => 'hiren.darji',
+                'status' => 'active',
+            ],
+            [
+                'name' => 'Jayant Lad',
+                'email' => 'jayant.lad@example.com',
+                'username' => 'jayant.lad',
+                'status' => 'active',
+            ],
+        ];
+
+        foreach ($users as $user) {
+            $existingUser = User::where('username', $user['username'])->first();
+            if (!$existingUser) {
+                User::factory()->create($user);
+            }
+        }
     }
 }

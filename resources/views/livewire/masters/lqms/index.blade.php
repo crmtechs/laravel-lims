@@ -1,46 +1,33 @@
+@push('scripts')
+    <script src="{{ asset('js/masters/lqms/index.js') }}?v={{ filemtime(public_path('js/masters/lqms/index.js')) }}"></script>
+@endpush
 <div>
     <div class="app-content pt-4">
         <div class="container-fluid">
-            @if (session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show mb-4 border-0 shadow-sm" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            @if (session()->has('success') || session()->has('error'))
+                <div x-data="lqmIndexToast('{{ addslashes(session('success')) }}', '{{ addslashes(session('error')) }}')"></div>
             @endif
 
-            @if (session()->has('error'))
-                <div class="alert alert-danger alert-dismissible fade show mb-4 border-0 shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <!-- Page Callout -->
+            <div class="callout callout-primary bg-white rounded shadow-sm w-100 d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-center">
+                    <h2 class="mb-0 text-dark fw-light">
+                        <i class="bi bi-list-ul"></i>
+                    </h2>
+                    <h2 class="mb-0 ms-3 text-dark fw-light">
+                        LQMs Masters List
+                    </h2>
                 </div>
-            @endif
+                <div class="btn-toolbar gap-2">
+                    <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#filterModal" title="Filter Records">
+                        <i class="bi bi-funnel"></i>
+                        <span class="text-uppercase ms-2">FILTER</span>
+                    </button>
+                </div>
+            </div>
 
             <div class="card card-secondary card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">LQMs Masters List</h3>
-                    <div class="card-tools">
-                        <div class="input-group input-group-sm" style="width: 16rem">
-                            <span class="input-group-text">
-                                <i class="bi bi-search" aria-hidden="true"></i>
-                            </span>
-                            <input wire:model.live="search" type="search" class="form-control"
-                                placeholder="Filter rows&hellip;" aria-label="Filter rows" />
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body p-0">
-                    <div class="d-flex gap-2 p-3 border-bottom">
-                        <select wire:model.live="statusFilter" class="form-select form-select-sm" style="width: 150px;">
-                            <option value="">All Statuses</option>
-                            <option value="Active">Active</option>
-                            <option value="Draft">Draft</option>
-                            <option value="Expired">Expired</option>
-                            <option value="Under Review">Under Review</option>
-                        </select>
-                    </div>
-
                     <div class="table-responsive">
                         <table class="table table-striped table-hover align-middle mb-0">
                             <thead>
@@ -56,6 +43,10 @@
                             </thead>
                             <tbody>
                                 @forelse($lqms as $lqm)
+                                    @php
+                                        $statusKey = strtolower($lqm->status);
+                                        $statusLabel = config('dropdowns.document_status_list.'.$statusKey, $lqm->status);
+                                    @endphp
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
@@ -69,14 +60,16 @@
                                         </td>
                                         <td>{{ $lqm->document_title ?: '' }}</td>
                                         <td>
-                                            @if ($lqm->status_id === 'Active')
-                                                <span class="badge text-bg-success">{{ $lqm->status_id }}</span>
-                                            @elseif($lqm->status_id === 'Draft')
-                                                <span class="badge text-bg-warning">{{ $lqm->status_id }}</span>
-                                            @elseif($lqm->status_id === 'Expired')
-                                                <span class="badge text-bg-danger">{{ $lqm->status_id }}</span>
+                                            @if ($statusKey === 'active')
+                                                <span class="badge text-bg-success">{{ $statusLabel }}</span>
+                                            @elseif($statusKey === 'draft')
+                                                <span class="badge text-bg-warning">{{ $statusLabel }}</span>
+                                            @elseif($statusKey === 'expired')
+                                                <span class="badge text-bg-danger">{{ $statusLabel }}</span>
+                                            @elseif($statusKey === 'under review')
+                                                <span class="badge text-bg-info">{{ $statusLabel }}</span>
                                             @else
-                                                <span class="badge text-bg-secondary">{{ $lqm->status_id }}</span>
+                                                <span class="badge text-bg-secondary">{{ $statusLabel }}</span>
                                             @endif
                                         </td>
                                         <td>{{ $lqm->publish_date ? $lqm->publish_date->format('d/m/Y') : '' }}
@@ -101,7 +94,6 @@
                         </table>
                     </div>
                 </div>
-
                 @if ($lqms->hasPages())
                     <div class="card-footer clearfix">
                         <div class="float-end">
@@ -109,6 +101,48 @@
                         </div>
                     </div>
                 @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Modal -->
+    <div wire:ignore.self class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterModalLabel">Filter Records</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Document Name</label>
+                        <input wire:model="filter_document_name" type="text" class="form-control" placeholder="Enter document name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Publish Date</label>
+                        <input wire:model="filter_publish_date" type="date" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Status</label>
+                        <select wire:model="filter_status" class="form-select">
+                            <option value="">All Statuses</option>
+                            @foreach(config('dropdowns.document_status_list') as $key => $label)
+                                <option value="{{ $key }}">{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center gap-2">
+                    <button type="button" class="btn btn-primary" wire:click="applyFilters" data-bs-dismiss="modal">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                    <button type="button" class="btn btn-secondary" wire:click="clearFilters">
+                        <i class="bi bi-eraser"></i> Clear
+                    </button>
+                    <button type="button" class="btn btn-danger" wire:click="resetFilters" data-bs-dismiss="modal">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset
+                    </button>
+                </div>
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@ class Create extends Component
     public $description;
     public $publish_date;
     public $expiration_date;
-    public $status_id = 'Active';
+    public $status = 'active';
     public $assigned_user_id;
     public $file_name;
     public $revision = '1';
@@ -42,6 +42,12 @@ class Create extends Component
         return (new LQMStoreRequest())->messages();
     }
 
+    public function mount()
+    {
+        $this->assigned_user_id = Auth::id();
+        $this->publish_date = now()->format('Y-m-d');
+    }
+
     public function save()
     {
         $this->validate();
@@ -52,7 +58,7 @@ class Create extends Component
             'description' => $this->description,
             'publish_date' => $this->publish_date,
             'expiration_date' => $this->expiration_date,
-            'status_id' => $this->status_id,
+            'status' => $this->status,
             'assigned_user_id' => $this->assigned_user_id,
             'created_user_id' => Auth::id(),
             'modified_user_id' => Auth::id(),
@@ -84,7 +90,7 @@ class Create extends Component
         }
         session()->flash('success', 'LQM record created successfully.');
 
-        return $this->redirectRoute('masters.lqms', navigate: true);
+        return $this->redirectRoute('masters.lqms.show', ['uuid' => $lqm->uuid], navigate: true);
     }
 
     public function render()

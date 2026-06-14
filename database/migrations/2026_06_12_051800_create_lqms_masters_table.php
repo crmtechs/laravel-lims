@@ -15,7 +15,7 @@ return new class extends Migration
         {
             $table->uuid('uuid')->primary();
             $table->date('active_date')->nullable();
-            $table->string('status_id')->nullable();
+            $table->string('status')->nullable();
             $table->string('document_name')->nullable();
             $table->text('description')->nullable();
             $table->string('file_ext')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('document_title')->nullable();
             $table->string('file_path')->nullable();
             $table->foreignUuid('assigned_user_id')->nullable()->references('uuid')->on('users')->nullOnDelete();
-            
+
             $table->timestamps();
             $table->softDeletes();
         });

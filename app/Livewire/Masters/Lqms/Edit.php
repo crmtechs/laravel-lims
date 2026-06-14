@@ -22,7 +22,7 @@ class Edit extends Component
     public $description;
     public $publish_date;
     public $expiration_date;
-    public $status_id = 'Active';
+    public $status = 'active';
     public $assigned_user_id;
     public $file_name;
     public $file_path;
@@ -49,12 +49,13 @@ class Edit extends Component
         $this->description = $lqm->description;
         $this->publish_date = $lqm->publish_date ? $lqm->publish_date->format('Y-m-d') : null;
         $this->expiration_date = $lqm->expiration_date ? $lqm->expiration_date->format('Y-m-d') : null;
-        $this->status_id = $lqm->status_id ?? 'Active';
+        $this->status = $lqm->status ?? 'active';
         $this->assigned_user_id = $lqm->assigned_user_id;
-        
+
         $activeRevision = $lqm->activeRevision;
         $this->file_path = $activeRevision ? $activeRevision->file_path : null;
         $this->existing_file_name = $activeRevision ? $activeRevision->file_name : null;
+        $this->revision = $activeRevision ? $activeRevision->revision : null;
     }
 
     public function save()
@@ -69,34 +70,16 @@ class Edit extends Component
             'description' => $this->description,
             'publish_date' => $this->publish_date,
             'expiration_date' => $this->expiration_date,
-            'status_id' => $this->status_id,
+            'status' => $this->status,
             'assigned_user_id' => $this->assigned_user_id,
             'modified_user_id' => Auth::id(),
         ];
 
-        if ($this->file_name)
-        {
-            $directory = 'lqms_masters';
-            if (!Storage::disk('public')->exists($directory))
-            {
-                Storage::disk('public')->makeDirectory($directory);
-            }
-            $path = $this->file_name->store($directory, 'public');
-            
-            $revisionRecord = LQMs_Masters_Revision::create([
-                'lqms_master_uuid' => $lqm->uuid,
-                'revision' => $this->revision,
-                'file_path' => $path,
-                'file_name' => $this->file_name->getClientOriginalName(),
-                'file_ext' => $this->file_name->getClientOriginalExtension(),
-                'file_mime_type' => $this->file_name->getMimeType(),
-                'created_user_id' => Auth::id(),
-            ]);
-
-            $data['lqms_masters_revision_uuid'] = $revisionRecord->uuid;
-        }
-
         $lqm->update($data);
+
+        if ($lqm->activeRevision && $this->revision) {
+            $lqm->activeRevision->update(['revision' => $this->revision]);
+        }
         session()->flash('success', 'LQM record updated successfully.');
 
         return $this->redirectRoute('masters.lqms', navigate: true);
@@ -107,5 +90,14 @@ class Edit extends Component
         return view('livewire.masters.lqms.edit', [
             'users' => User::all(),
         ])->title('Edit LQM');
+    }
+
+    public function downloadFile()
+    {
+        if ($this->file_path && Storage::disk('public')->exists($this->file_path)) {
+            return Storage::disk('public')->download($this->file_path, $this->existing_file_name);
+        }
+
+        session()->flash('error', 'File not found on server.');
     }
 }
