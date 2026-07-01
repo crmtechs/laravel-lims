@@ -126,4 +126,5 @@ return [
     ],
 
     'pagination_limit' => env('PAGINATION_LIMIT', 20),
+    'prune_days' => env('PRUNE_DAYS', 30),
 ];

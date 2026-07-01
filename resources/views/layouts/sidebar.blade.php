@@ -20,13 +20,14 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('masters.lqms') }}" wire:navigate
-                                @class(['nav-link', 'active' => request()->routeIs('masters.lqms')])>
+                                @class(['nav-link', 'active' => request()->routeIs('masters.lqms*')])>
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>LQMs</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('masters.annexures') }}" wire:navigate
+                                @class(['nav-link', 'active' => request()->routeIs('masters.annexures*')])>
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Annexures</p>
                             </a>

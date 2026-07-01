@@ -28,6 +28,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/{uuid}/edit', MastersLqmsEdit::class)->name('masters.lqms.edit');
     });
 
+    Route::prefix('masters/annexures')->group(function () {
+        Route::get('/', \App\Livewire\Masters\Annexures\Index::class)->name('masters.annexures');
+        Route::get('/create', \App\Livewire\Masters\Annexures\Create::class)->name('masters.annexures.create');
+        Route::get('/{uuid}', \App\Livewire\Masters\Annexures\Show::class)->name('masters.annexures.show');
+        Route::get('/{uuid}/revision/create', \App\Livewire\Masters\Annexures\Revisions\Create::class)->name('masters.annexures.revision.create');
+        Route::get('/{uuid}/revision/{revisionUuid}', \App\Livewire\Masters\Annexures\Revisions\Show::class)->name('masters.annexures.revision.show');
+        Route::get('/{uuid}/edit', \App\Livewire\Masters\Annexures\Edit::class)->name('masters.annexures.edit');
+    });
+
     Route::post('/logout', function () {
         auth()->logout();
         request()->session()->invalidate();

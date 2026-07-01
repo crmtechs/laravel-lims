@@ -19,6 +19,14 @@
                     <a href="{{ route('masters.lqms.create') }}" @class(['nav-link', 'active' => request()->routeIs('masters.lqms.create', 'masters.lqms.edit')]) wire:navigate>Create LQM</a>
                 </li>
             @endif
+            @if (request()->routeIs('masters.annexures*'))
+                <li class="nav-item d-none d-md-block">
+                    <a href="{{ route('masters.annexures') }}" @class(['nav-link', 'active' => request()->routeIs('masters.annexures', 'masters.annexures.show')]) wire:navigate>Annexures</a>
+                </li>
+                <li class="nav-item d-none d-md-block">
+                    <a href="{{ route('masters.annexures.create') }}" @class(['nav-link', 'active' => request()->routeIs('masters.annexures.create', 'masters.annexures.edit')]) wire:navigate>Create Annexure</a>
+                </li>
+            @endif
         </ul>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown user-menu">

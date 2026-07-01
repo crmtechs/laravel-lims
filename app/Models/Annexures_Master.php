@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LQMs_Master extends Model
+class Annexures_Master extends Model
 {
     use HasUuids, SoftDeletes;
 
-    protected $table = 'lqms_masters';
+    protected $table = 'annexures_masters';
 
     protected $primaryKey = 'uuid';
 
@@ -26,7 +26,7 @@ class LQMs_Master extends Model
         'expiration_date',
         'status',
         'assigned_user_id',
-        'lqms_masters_revision_uuid',
+        'annexures_masters_revision_uuid',
         'created_user_id',
         'modified_user_id',
     ];
@@ -48,12 +48,12 @@ class LQMs_Master extends Model
 
     public function activeRevision()
     {
-        return $this->belongsTo(LQMs_Masters_Revision::class, 'lqms_masters_revision_uuid', 'uuid');
+        return $this->belongsTo(Annexures_Masters_Revision::class, 'annexures_masters_revision_uuid', 'uuid');
     }
 
     public function revisions()
     {
-        return $this->hasMany(LQMs_Masters_Revision::class, 'lqms_master_uuid', 'uuid');
+        return $this->hasMany(Annexures_Masters_Revision::class, 'annexures_master_uuid', 'uuid');
     }
 
     protected static function booted()
