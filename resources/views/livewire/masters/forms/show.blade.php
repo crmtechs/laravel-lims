@@ -87,7 +87,7 @@
                         <!-- Row 4 -->
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('forms_master.status') }}</label>
-                            <div class="form-control form-control-view bg-light">{{ $form->status ?: '' }}</div>
+                            <div class="form-control form-control-view bg-light">{{ $form->status ? config('dropdowns.document_status_list.' . strtolower($form->status), $form->status) : '' }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('forms_master.assigned_to') }}</label>

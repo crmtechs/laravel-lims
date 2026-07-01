@@ -32,17 +32,7 @@ window.lqmIndexToast = function (successMsg, errorMsg) {
     };
 };
 
-window.lqmIndexFilters = function (hasActiveFilters) {
-    return {
-        showFilters: hasActiveFilters,
-        init() {
-            if (localStorage.getItem('masters_lqms_filters_state') !== null) {
-                this.showFilters = localStorage.getItem('masters_lqms_filters_state') === 'true';
-            }
-            this.$watch('showFilters', value => localStorage.setItem('masters_lqms_filters_state', value));
-        }
-    };
-};
+
 
 if (typeof window.choicesSelect === 'undefined') {
     window.choicesSelect = function(wireModelName) {
