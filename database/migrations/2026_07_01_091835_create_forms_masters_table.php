@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    public function up()
     {
         Schema::create('forms_masters', function (Blueprint $table)
         {
@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('document_title')->nullable();
             $table->foreignUuid('assigned_user_id')->nullable()->references('uuid')->on('users')->nullOnDelete();
-            $table->uuid('created_user_id')->nullable();
-            $table->uuid('modified_user_id')->nullable();
+            $table->foreignUuid('created_user_id')->nullable()->references('uuid')->on('users')->nullOnDelete();
+            $table->foreignUuid('modified_user_id')->nullable()->references('uuid')->on('users')->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -45,7 +45,7 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
+    public function down()
     {
         Schema::table('forms_masters', function (Blueprint $table)
         {
