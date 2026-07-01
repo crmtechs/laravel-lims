@@ -20,11 +20,29 @@ class Index extends Component
     public $active_filter_publish_date = '';
     public $active_filter_status = '';
 
+    public function mount()
+    {
+        $this->active_filter_document_name = session('lqms_active_filter_document_name', '');
+        $this->active_filter_publish_date = session('lqms_active_filter_publish_date', '');
+        $this->active_filter_status = session('lqms_active_filter_status', '');
+
+        $this->filter_document_name = $this->active_filter_document_name;
+        $this->filter_publish_date = $this->active_filter_publish_date;
+        $this->filter_status = $this->active_filter_status;
+    }
+
     public function applyFilters()
     {
         $this->active_filter_document_name = $this->filter_document_name;
         $this->active_filter_publish_date = $this->filter_publish_date;
         $this->active_filter_status = $this->filter_status;
+        
+        session([
+            'lqms_active_filter_document_name' => $this->active_filter_document_name,
+            'lqms_active_filter_publish_date' => $this->active_filter_publish_date,
+            'lqms_active_filter_status' => $this->active_filter_status,
+        ]);
+
         $this->resetPage();
     }
 
@@ -41,7 +59,21 @@ class Index extends Component
         $this->active_filter_document_name = '';
         $this->active_filter_publish_date = '';
         $this->active_filter_status = '';
+        
+        session()->forget([
+            'lqms_active_filter_document_name',
+            'lqms_active_filter_publish_date',
+            'lqms_active_filter_status',
+        ]);
+
         $this->resetPage();
+    }
+
+    public function hasActiveFilters(): bool
+    {
+        return !empty($this->active_filter_document_name) || 
+               !empty($this->active_filter_publish_date) || 
+               !empty($this->active_filter_status);
     }
 
     public function delete($uuid)

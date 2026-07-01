@@ -3,7 +3,7 @@
 @endpush
 <div>
     <div class="app-content pt-4">
-        <div class="container-fluid">
+        <div class="container-fluid" x-data="lqmIndexFilters({{ $this->hasActiveFilters() ? 'true' : 'false' }})">
             @if (session()->has('success') || session()->has('error'))
                 <div x-data="lqmIndexToast('{{ addslashes(session('success')) }}', '{{ addslashes(session('error')) }}')"></div>
             @endif
@@ -19,16 +19,51 @@
                     </h2>
                 </div>
                 <div class="btn-toolbar gap-2">
-                    @if(!empty($active_filter_document_name) || !empty($active_filter_publish_date) || !empty($active_filter_status))
+                    @if($this->hasActiveFilters())
                         <button type="button" class="btn btn-danger d-flex align-items-center" wire:click="resetFilters" title="Reset Filters">
                             <i class="bi bi-arrow-counterclockwise"></i>
                             <span class="text-uppercase ms-2">RESET</span>
                         </button>
                     @endif
-                    <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#filterModal" title="Filter Records">
+                    <button type="button" class="btn btn-primary d-flex align-items-center" @click="showFilters = !showFilters" title="Filter Records">
                         <i class="bi bi-funnel"></i>
                         <span class="text-uppercase ms-2">FILTER</span>
                     </button>
+                </div>
+            </div>
+
+            <!-- Inline Filters -->
+            <div x-show="showFilters" x-transition style="display: none;" class="card card-secondary card-outline mb-4">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Document Name</label>
+                            <input wire:model="filter_document_name" type="text" class="form-control" placeholder="Enter document name">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Publish Date</label>
+                            <input wire:model="filter_publish_date" type="date" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Status</label>
+                            <div wire:ignore x-data="choicesSelect('filter_status')">
+                                <select x-ref="select" class="form-select">
+                                    <option value="">All Statuses</option>
+                                    @foreach(config('dropdowns.document_status_list') as $key => $label)
+                                        <option value="{{ $key }}" @if($filter_status == $key) selected @endif>{{ $label }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-primary" wire:click="applyFilters">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                        <button type="button" class="btn btn-secondary" wire:click="clearFilters">
+                            <i class="bi bi-eraser"></i> Clear
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -102,45 +137,6 @@
                 </div>
                 <div class="card-footer">
                     {{ $lqms->links(data: ['totalRecords' => $totalRecords ?? null]) }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Filter Modal -->
-    <div wire:ignore.self class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="filterModalLabel">Filter Records</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Document Name</label>
-                        <input wire:model="filter_document_name" type="text" class="form-control" placeholder="Enter document name">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Publish Date</label>
-                        <input wire:model="filter_publish_date" type="date" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Status</label>
-                        <select wire:model="filter_status" class="form-select">
-                            <option value="">All Statuses</option>
-                            @foreach(config('dropdowns.document_status_list') as $key => $label)
-                                <option value="{{ $key }}">{{ $label }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-center gap-2">
-                    <button type="button" class="btn btn-primary" wire:click="applyFilters" data-bs-dismiss="modal">
-                        <i class="bi bi-search"></i> Search
-                    </button>
-                    <button type="button" class="btn btn-secondary" wire:click="clearFilters">
-                        <i class="bi bi-eraser"></i> Clear
-                    </button>
                 </div>
             </div>
         </div>

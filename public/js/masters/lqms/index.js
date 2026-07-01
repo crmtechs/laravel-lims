@@ -31,3 +31,37 @@ window.lqmIndexToast = function (successMsg, errorMsg) {
         },
     };
 };
+
+window.lqmIndexFilters = function (hasActiveFilters) {
+    return {
+        showFilters: hasActiveFilters,
+        init() {
+            if (localStorage.getItem('masters_lqms_filters_state') !== null) {
+                this.showFilters = localStorage.getItem('masters_lqms_filters_state') === 'true';
+            }
+            this.$watch('showFilters', value => localStorage.setItem('masters_lqms_filters_state', value));
+        }
+    };
+};
+
+if (typeof window.choicesSelect === 'undefined') {
+    window.choicesSelect = function(wireModelName) {
+        return {
+            choice: null,
+            init() {
+                this.choice = new Choices(this.$refs.select, {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    shouldSort: false
+                });
+                this.$refs.select.addEventListener('change', (e) => {
+                    this.$wire.set(wireModelName, e.target.value);
+                });
+
+                this.$wire.$watch(wireModelName, (value) => {
+                    this.choice.setChoiceByValue(String(value));
+                });
+            }
+        }
+    };
+}
