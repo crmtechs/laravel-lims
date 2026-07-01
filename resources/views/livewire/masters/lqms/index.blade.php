@@ -93,7 +93,7 @@
                                     <th>
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-sm btn-outline-secondary dropdown-toggle p-0 border-0 shadow-none text-dark fw-bold bg-transparent" type="button" data-bs-toggle="dropdown" data-bs-popper-config='{"strategy":"fixed"}' aria-expanded="false">
-                                                <i class="bi bi-check2-square"></i>
+                                                <i class="bi bi-check2-square fs-5"></i>
                                             </button>
                                             <ul class="dropdown-menu shadow text-sm">
                                                 <li><a class="dropdown-item" href="#" wire:click.prevent="selectPage">Select This Page ({{ $lqms->count() }})</a></li>
