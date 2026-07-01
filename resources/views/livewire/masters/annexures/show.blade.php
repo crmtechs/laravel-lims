@@ -139,7 +139,7 @@
                                     <th>{{ __('annexures_master.file_name') }}</th>
                                     <th>{{ __('annexures_master.change_log') }}</th>
                                     <th>{{ __('annexures_master.revision') }}</th>
-                                    <th>{{ __('annexures_master.date_created') }}</th>
+                                    <th>{{ __('annexures_master.created_at') }}</th>
                                     <th>{{ __('annexures_master.created_by') }}</th>
                                     <th class="text-center" style="width: 100px;">{{ __('annexures_master.download') }}</th>
                                 </tr>

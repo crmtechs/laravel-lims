@@ -139,7 +139,7 @@
                                     <th>{{ __('forms_master.file_name') }}</th>
                                     <th>{{ __('forms_master.change_log') }}</th>
                                     <th>{{ __('forms_master.revision') }}</th>
-                                    <th>{{ __('forms_master.date_created') }}</th>
+                                    <th>{{ __('forms_master.created_at') }}</th>
                                     <th>{{ __('forms_master.created_by') }}</th>
                                     <th class="text-center w-100px">{{ __('forms_master.download') }}</th>
                                 </tr>

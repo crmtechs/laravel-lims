@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">{{ __('lqms_master.date_created') }}</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.created_at') }}</label>
                             <div class="form-control form-control-view bg-light">
                                 {{ $revision->created_at->format(config('app.datetime_format')) }}
                             </div>

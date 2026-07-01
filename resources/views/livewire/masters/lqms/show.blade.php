@@ -139,7 +139,7 @@
                                     <th>{{ __('lqms_master.file_name') }}</th>
                                     <th>{{ __('lqms_master.change_log') }}</th>
                                     <th>{{ __('lqms_master.revision') }}</th>
-                                    <th>{{ __('lqms_master.date_created') }}</th>
+                                    <th>{{ __('lqms_master.created_at') }}</th>
                                     <th>{{ __('lqms_master.created_by') }}</th>
                                     <th class="text-center" style="width: 100px;">{{ __('lqms_master.download') }}</th>
                                 </tr>
