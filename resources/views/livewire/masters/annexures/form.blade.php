@@ -28,23 +28,23 @@
     <!-- Details Card with primary header -->
     <div class="card card-primary card-outline">
         <div class="card-header">
-            <h3 class="card-title fw-semibold">Annexure Details</h3>
+            <h3 class="card-title fw-semibold">{{ __('annexures_master.details') }}</h3>
         </div>
         <div class="card-body">
             <div class="row">
                 <!-- Row 1 -->
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">File Name @if(!isset($formTitle) || $formTitle !== 'Edit')<span class="text-danger">*</span>@endif</label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.file_name') }} @if(!isset($formTitle) || $formTitle !== 'Edit')<span class="text-danger">*</span>@endif</label>
                     @if(isset($formTitle) && $formTitle === 'Edit')
                         @if (!empty($file_path))
                             <div class="input-group">
-                                <div class="form-control form-control-view bg-light text-truncate">{{ $existing_file_name ?? 'No file uploaded' }}</div>
+                                <div class="form-control form-control-view bg-light text-truncate">{{ $existing_file_name ?? __('annexures_master.no_file_uploaded') }}</div>
                                 <a wire:click="downloadFile" class="input-group-text text-decoration-none" role="button" style="cursor: pointer;" title="Download">
-                                    <i class="bi bi-download me-1"></i> Download
+                                    <i class="bi bi-download me-1"></i> {{ __('annexures_master.download') }}
                                 </a>
                             </div>
                         @else
-                            <div class="form-control form-control-view bg-light text-truncate">No file uploaded</div>
+                            <div class="form-control form-control-view bg-light text-truncate">{{ __('annexures_master.no_file_uploaded') }}</div>
                         @endif
                     @else
                         <input wire:model="file_name" type="file" class="form-control @error('file_name') is-invalid @enderror">
@@ -57,7 +57,7 @@
                     @endif
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">Revision <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.revision') }} <span class="text-danger">*</span></label>
                     <input wire:model="revision" type="text"
                         class="form-control @error('revision') is-invalid @enderror"
                         placeholder="">
@@ -68,7 +68,7 @@
 
                 <!-- Row 2 -->
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">Document Name <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.document_name') }} <span class="text-danger">*</span></label>
                     <input wire:model="document_name" type="text"
                         class="form-control @error('document_name') is-invalid @enderror"
                         placeholder="Document Name">
@@ -77,7 +77,7 @@
                     @enderror
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">Document Title</label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.document_title') }}</label>
                     <input wire:model="document_title" type="text"
                         class="form-control @error('document_title') is-invalid @enderror"
                         placeholder="Document Title">
@@ -88,7 +88,7 @@
 
                 <!-- Row 3 -->
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">Publish Date <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.publish_date') }} <span class="text-danger">*</span></label>
                     <input wire:model="publish_date" type="date"
                         class="form-control @error('publish_date') is-invalid @enderror">
                     @error('publish_date')
@@ -96,7 +96,7 @@
                     @enderror
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">Expiration Date</label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.expiration_date') }}</label>
                     <input wire:model="expiration_date" type="date"
                         class="form-control @error('expiration_date') is-invalid @enderror">
                     @error('expiration_date')
@@ -106,7 +106,7 @@
 
                 <!-- Row 4 -->
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">Status <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.status') }} <span class="text-danger">*</span></label>
                     <div wire:ignore x-data="choicesSelect('status')">
                         <select x-ref="select" class="form-control @error('status') is-invalid @enderror">
                             @foreach(config('dropdowns.document_status_list') as $key => $label)
@@ -119,7 +119,7 @@
                     @enderror
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">Assigned User <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.assigned_user') }} <span class="text-danger">*</span></label>
                     <div wire:ignore x-data="choicesSelect('assigned_user_id')">
                         <select x-ref="select" class="form-control @error('assigned_user_id') is-invalid @enderror">
                             @foreach ($users as $user)
@@ -134,7 +134,7 @@
 
                 <!-- Row 5 -->
                 <div class="col-12 mb-3">
-                    <label class="form-label fw-bold">Description</label>
+                    <label class="form-label fw-bold">{{ __('annexures_master.description') }}</label>
                     <textarea wire:model="description" class="form-control @error('description') is-invalid @enderror"
                         rows="3" placeholder="Description"></textarea>
                     @error('description')

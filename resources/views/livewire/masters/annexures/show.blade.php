@@ -37,48 +37,48 @@
             <!-- Annexure Details Panel -->
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title fw-semibold">Annexure Details</h3>
+                    <h3 class="card-title fw-semibold">{{ __('annexures_master.details') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <!-- Row 1 -->
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">File Name</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.file_name') }}</label>
                             @if (!empty($annexure->activeRevision?->file_path))
                                 <div class="input-group">
                                     <div class="form-control bg-light text-dark text-truncate">{{ $annexure->activeRevision?->file_name ?? $annexure->document_name }}</div>
                                     <a wire:click="downloadFile" class="input-group-text text-decoration-none" role="button" style="cursor: pointer;" title="Download">
-                                        <i class="bi bi-download me-1"></i> Download
+                                        <i class="bi bi-download me-1"></i> {{ __('annexures_master.download') }}
                                     </a>
                                 </div>
                             @else
-                                <div class="form-control bg-light text-muted">No file uploaded</div>
+                                <div class="form-control bg-light text-muted">{{ __('annexures_master.no_file_uploaded') }}</div>
                             @endif
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Revision</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.revision') }}</label>
                             <div class="form-control bg-light">{{ $annexure->activeRevision ? $annexure->activeRevision->revision : '-' }}</div>
                         </div>
 
                         <!-- Row 2 -->
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Document Name</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.document_name') }}</label>
                             <div class="form-control form-control-view bg-light">{{ $annexure->document_name ?: '' }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Document Title</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.document_title') }}</label>
                             <div class="form-control form-control-view bg-light">{{ $annexure->document_title ?: '' }}</div>
                         </div>
 
                         <!-- Row 3 -->
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Publish Date</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.publish_date') }}</label>
                             <div class="form-control form-control-view bg-light">
                                 {{ $annexure->publish_date?->format('d/m/Y') }}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Expiration Date</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.expiration_date') }}</label>
                             <div class="form-control form-control-view bg-light">
                                 {{ $annexure->expiration_date?->format('d/m/Y') }}
                             </div>
@@ -86,11 +86,11 @@
 
                         <!-- Row 4 -->
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Status</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.status') }}</label>
                             <div class="form-control form-control-view bg-light">{{ $annexure->status ?: '' }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Assigned to</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.assigned_to') }}</label>
                             <div class="form-control form-control-view bg-light">
                                 {{ $annexure->assignedUser ? $annexure->assignedUser->name : '' }}
                             </div>
@@ -98,7 +98,7 @@
 
                         <!-- Row 5 -->
                         <div class="col-12 mb-3">
-                            <label class="form-label fw-bold">Description</label>
+                            <label class="form-label fw-bold">{{ __('annexures_master.description') }}</label>
                             <div class="form-control bg-light h-auto min-h-5rem">
                                 {{ $annexure->description ?: '' }}
                             </div>
@@ -110,7 +110,7 @@
             <!-- Revision History Subpanel -->
             <div class="card card-secondary card-outline mt-4">
                 <div class="card-header">
-                    <h3 class="card-title fw-semibold mb-0 mt-1"><i class="bi bi-clock-history me-2"></i>Revision History</h3>
+                    <h3 class="card-title fw-semibold mb-0 mt-1"><i class="bi bi-clock-history me-2"></i>{{ __('annexures_master.revision_history') }}</h3>
                     <div class="btn-toolbar gap-2 float-end">
                         <a href="{{ route('masters.annexures.revision.create', $annexure->uuid) }}" wire:navigate class="btn btn-sm btn-primary">
                             <i class="bi bi-plus-lg me-1"></i> Create
@@ -122,12 +122,12 @@
                         <table class="table table-striped table-hover mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th>File Name</th>
-                                    <th>Change Log</th>
-                                    <th>Revision</th>
-                                    <th>Date Created</th>
-                                    <th>Created By</th>
-                                    <th class="text-center" style="width: 100px;">Download</th>
+                                    <th>{{ __('annexures_master.file_name') }}</th>
+                                    <th>{{ __('annexures_master.change_log') }}</th>
+                                    <th>{{ __('annexures_master.revision') }}</th>
+                                    <th>{{ __('annexures_master.date_created') }}</th>
+                                    <th>{{ __('annexures_master.created_by') }}</th>
+                                    <th class="text-center" style="width: 100px;">{{ __('annexures_master.download') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -160,7 +160,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="text-center text-muted py-3">No revisions found.</td>
+                                        <td colspan="6" class="text-center text-muted py-3">{{ __('annexures_master.no_revisions_found') }}</td>
                                     </tr>
                                 @endforelse
                             </tbody>

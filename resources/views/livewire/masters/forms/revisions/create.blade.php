@@ -28,30 +28,30 @@
             </div>
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title fw-semibold">Revision Details</h3>
+                        <h3 class="card-title fw-semibold">{{ __('forms_master.revision_details') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <!-- Row 1: Read-only -->
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Document Name</label>
+                                <label class="form-label fw-bold">{{ __('forms_master.document_name') }}</label>
                                 <div class="form-control bg-light">{{ $form->document_name }}</div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Latest Revision</label>
+                                <label class="form-label fw-bold">{{ __('forms_master.latest_revision') }}</label>
                                 <div class="form-control bg-light">{{ $form->activeRevision?->revision ?: '-' }}</div>
                             </div>
 
                             <!-- Row 2: File Browse and Revision -->
                             <div class="col-md-6 mb-3">
-                                <label for="file_name" class="form-label fw-bold">File Browse <span class="text-danger">*</span></label>
+                                <label for="file_name" class="form-label fw-bold">{{ __('forms_master.file_browse') }} <span class="text-danger">*</span></label>
                                 <input type="file" class="form-control @error('file_name') is-invalid @enderror" id="file_name" wire:model="file_name">
                                 @error('file_name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="revision" class="form-label fw-bold">Revision <span class="text-danger">*</span></label>
+                                <label for="revision" class="form-label fw-bold">{{ __('forms_master.revision') }} <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('revision') is-invalid @enderror" id="revision" wire:model="revision" placeholder="Revision">
                                 @error('revision')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -60,7 +60,7 @@
 
                             <!-- Row 3: Change Log -->
                             <div class="col-md-12 mb-3">
-                                <label for="change_log" class="form-label fw-bold">Change Log <span class="text-danger">*</span></label>
+                                <label for="change_log" class="form-label fw-bold">{{ __('forms_master.change_log') }} <span class="text-danger">*</span></label>
                                 <textarea class="form-control @error('change_log') is-invalid @enderror" id="change_log" wire:model="change_log" rows="3" placeholder="Change Log"></textarea>
                                 @error('change_log')
                                     <div class="invalid-feedback">{{ $message }}</div>
