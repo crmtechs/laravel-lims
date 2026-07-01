@@ -30,48 +30,48 @@
             <!-- Revision Details Panel -->
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title fw-semibold">Revision Details</h3>
+                    <h3 class="card-title fw-semibold">{{ __('lqms_master.revision_details') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <!-- Row 1 -->
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Document Name</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.document_name') }}</label>
                             <div class="form-control form-control-view bg-light">{{ $lqm->document_name ?: '' }}</div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Latest Revision</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.latest_revision') }}</label>
                             <div class="form-control form-control-view bg-light">{{ $lqm->activeRevision?->revision ?: '-' }}</div>
                         </div>
 
                         <!-- Row 2 -->
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">File Name</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.file_name') }}</label>
                             @if (!empty($revision->file_path))
                                 <div class="input-group">
                                     <div class="form-control bg-light text-dark text-truncate">{{ $revision->file_name }}</div>
                                     <a wire:click="downloadRevisionFile" class="input-group-text text-decoration-none" role="button" style="cursor: pointer;" title="Download">
-                                        <i class="bi bi-download me-1"></i> Download
+                                        <i class="bi bi-download me-1"></i> {{ __('lqms_master.download') }}
                                     </a>
                                 </div>
                             @else
-                                <div class="form-control bg-light text-muted">No file uploaded</div>
+                                <div class="form-control bg-light text-muted">{{ __('lqms_master.no_file_uploaded') }}</div>
                             @endif
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Revision</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.revision') }}</label>
                             <div class="form-control form-control-view bg-light">{{ $revision->revision ?: '' }}</div>
                         </div>
 
                         <!-- Row 3 -->
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Change Log</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.change_log') }}</label>
                             <div class="form-control bg-light h-auto min-h-5rem">
                                 {{ $revision->change_log ?: '' }}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Date Created</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.date_created') }}</label>
                             <div class="form-control form-control-view bg-light">
                                 {{ $revision->created_at->format('d/m/Y H:i') }}
                             </div>

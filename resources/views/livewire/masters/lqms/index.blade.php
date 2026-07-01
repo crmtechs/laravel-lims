@@ -15,7 +15,7 @@
                         <i class="bi bi-list-ul"></i>
                     </h2>
                     <h2 class="mb-0 ms-3 text-dark fw-light">
-                        LQMs Masters List
+                        {{ __('lqms_master.title') }}
                     </h2>
                 </div>
                 <div class="btn-toolbar gap-2">
@@ -37,18 +37,18 @@
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Document Name</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.document_name') }}</label>
                             <input wire:model="filter_document_name" type="text" class="form-control" placeholder="Enter document name">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Publish Date</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.publish_date') }}</label>
                             <input wire:model="filter_publish_date" type="date" class="form-control">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-bold">Status</label>
+                            <label class="form-label fw-bold">{{ __('lqms_master.status') }}</label>
                             <div wire:ignore x-data="choicesSelect('filter_status')">
                                 <select x-ref="select" class="form-select">
-                                    <option value="">All Statuses</option>
+                                    <option value="">{{ __('lqms_master.all_statuses') }}</option>
                                     @foreach(config('dropdowns.document_status_list') as $key => $label)
                                         <option value="{{ $key }}" @if($filter_status == $key) selected @endif>{{ $label }}</option>
                                     @endforeach
@@ -73,12 +73,12 @@
                         <table class="table table-hover mb-0">
                             <thead class="table-header-custom">
                                 <tr>
-                                    <th>Document Name</th>
-                                    <th>Document Title</th>
-                                    <th>Status</th>
-                                    <th>Publish Date</th>
-                                    <th>Assigned To</th>
-                                    <th>Date Created</th>
+                                    <th>{{ __('lqms_master.document_name') }}</th>
+                                    <th>{{ __('lqms_master.document_title') }}</th>
+                                    <th>{{ __('lqms_master.status') }}</th>
+                                    <th>{{ __('lqms_master.publish_date') }}</th>
+                                    <th>{{ __('lqms_master.assigned_to') }}</th>
+                                    <th>{{ __('lqms_master.date_created') }}</th>
                                     <th class="text-end">Edit</th>
                                 </tr>
                             </thead>
@@ -127,7 +127,7 @@
                                 @empty
                                     <tr>
                                         <td colspan="7" class="text-center py-2 text-secondary">
-                                            No Records Found
+                                            {{ __('lqms_master.no_records_found') }}
                                         </td>
                                     </tr>
                                 @endforelse
