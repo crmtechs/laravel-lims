@@ -74,13 +74,13 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('forms_master.publish_date') }}</label>
                             <div class="form-control form-control-view bg-light">
-                                {{ $form->publish_date?->format('d/m/Y') }}
+                                {{ $form->publish_date?->format(config('app.date_format')) }}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('forms_master.expiration_date') }}</label>
                             <div class="form-control form-control-view bg-light">
-                                {{ $form->expiration_date?->format('d/m/Y') }}
+                                {{ $form->expiration_date?->format(config('app.date_format')) }}
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('forms_master.assigned_to') }}</label>
                             <div class="form-control form-control-view bg-light">
-                                {{ $form->assignedUser ? $form->assignedUser->name : '' }}
+                                {{ $form->assignedTo ? $form->assignedTo->name : '' }}
                             </div>
                         </div>
 
@@ -101,6 +101,20 @@
                             <label class="form-label fw-bold">{{ __('forms_master.description') }}</label>
                             <div class="form-control bg-light h-auto min-h-5rem">
                                 {{ $form->description ?: '' }}
+                            </div>
+                        </div>
+
+                        <!-- Row 6 -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">{{ __('forms_master.created_at') }}</label>
+                            <div class="form-control form-control-view bg-light">
+                                {{ $form->created_at ? $form->created_at->format(config('app.datetime_format')) : '' }}{{ $form->createdBy ? ' by ' . $form->createdBy->name : '' }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">{{ __('forms_master.updated_at') }}</label>
+                            <div class="form-control form-control-view bg-light">
+                                {{ $form->updated_at ? $form->updated_at->format(config('app.datetime_format')) : '' }}{{ $form->updatedBy ? ' by ' . $form->updatedBy->name : '' }}
                             </div>
                         </div>
                     </div>
@@ -147,7 +161,7 @@
                                                 <span class="badge bg-success ms-2">Latest</span>
                                             @endif
                                         </td>
-                                        <td class="align-middle">{{ $revision->created_at->format('d/m/Y H:i') }}</td>
+                                        <td class="align-middle">{{ $revision->created_at->format(config('app.datetime_format')) }}</td>
                                         <td class="align-middle">{{ $revision->createdUser?->name }}</td>
                                         <td class="text-center align-middle">
                                             <button type="button" wire:click="downloadRevisionFile('{{ $revision->uuid }}')"

@@ -125,6 +125,10 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'date_format' => env('DATE_FORMAT', 'd/m/Y'),
+    'time_format' => env('TIME_FORMAT', 'H:i'),
+    'datetime_format' => env('DATE_FORMAT', 'd/m/Y') . ' ' . env('TIME_FORMAT', 'H:i'),
+
     'pagination_limit' => env('PAGINATION_LIMIT', 20),
     'prune_days' => env('PRUNE_DAYS', 30),
 ];

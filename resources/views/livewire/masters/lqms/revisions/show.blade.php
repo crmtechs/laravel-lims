@@ -73,7 +73,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('lqms_master.date_created') }}</label>
                             <div class="form-control form-control-view bg-light">
-                                {{ $revision->created_at->format('d/m/Y H:i') }}
+                                {{ $revision->created_at->format(config('app.datetime_format')) }}
                             </div>
                         </div>
                     </div>

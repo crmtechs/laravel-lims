@@ -108,7 +108,7 @@
                                     <th class="w-15">{{ __('forms_master.status') }}</th>
                                     <th class="w-15">{{ __('forms_master.publish_date') }}</th>
                                     <th class="w-15">{{ __('forms_master.assigned_to') }}</th>
-                                    <th class="w-15">{{ __('forms_master.date_created') }}</th>
+                                    <th class="w-15">{{ __('forms_master.created_at') }}</th>
                                     <th class="text-end">Edit</th>
                                 </tr>
                             </thead>
@@ -146,10 +146,10 @@
                                                 <span class="badge text-bg-secondary">{{ $statusLabel }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ $form->publish_date ? $form->publish_date->format('d/m/Y') : '' }}
+                                        <td>{{ $form->publish_date ? $form->publish_date->format(config('app.date_format')) : '' }}
                                         </td>
-                                        <td>{{ $form->assignedUser ? $form->assignedUser->name : '' }}</td>
-                                        <td>{{ $form->created_at ? $form->created_at->format('d/m/Y H:i') : '' }}</td>
+                                        <td>{{ $form->assignedTo ? $form->assignedTo->name : '' }}</td>
+                                        <td>{{ $form->created_at ? $form->created_at->format(config('app.datetime_format')) : '' }}</td>
                                         <td class="text-end">
                                             <a href="{{ route('masters.forms.edit', $form->uuid) }}"
                                                 class="btn btn-outline-primary btn-sm" title="Edit" wire:navigate>

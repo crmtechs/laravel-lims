@@ -108,7 +108,7 @@
                                     <th class="w-15">{{ __('lqms_master.status') }}</th>
                                     <th class="w-15">{{ __('lqms_master.publish_date') }}</th>
                                     <th class="w-15">{{ __('lqms_master.assigned_to') }}</th>
-                                    <th class="w-15">{{ __('lqms_master.date_created') }}</th>
+                                    <th class="w-15">{{ __('lqms_master.created_at') }}</th>
                                     <th class="text-end">Edit</th>
                                 </tr>
                             </thead>
@@ -146,10 +146,10 @@
                                                 <span class="badge text-bg-secondary">{{ $statusLabel }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ $lqm->publish_date ? $lqm->publish_date->format('d/m/Y') : '' }}
+                                        <td>{{ $lqm->publish_date ? $lqm->publish_date->format(config('app.date_format')) : '' }}
                                         </td>
-                                        <td>{{ $lqm->assignedUser ? $lqm->assignedUser->name : '' }}</td>
-                                        <td>{{ $lqm->created_at ? $lqm->created_at->format('d/m/Y H:i') : '' }}</td>
+                                        <td>{{ $lqm->assignedTo ? $lqm->assignedTo->name : '' }}</td>
+                                        <td>{{ $lqm->created_at ? $lqm->created_at->format(config('app.datetime_format')) : '' }}</td>
                                         <td class="text-end">
                                             <a href="{{ route('masters.lqms.edit', $lqm->uuid) }}"
                                                 class="btn btn-outline-primary btn-sm" title="Edit" wire:navigate>

@@ -41,9 +41,19 @@ class LQMs_Master extends Model
         'expiration_date' => 'date',
     ];
 
-    public function assignedUser()
+    public function assignedTo()
     {
         return $this->belongsTo(User::class, 'assigned_user_id', 'uuid');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_user_id', 'uuid');
+    }
+
+    public function updatedBy()
+    {
+        return $this->belongsTo(User::class, 'modified_user_id', 'uuid');
     }
 
     public function activeRevision()

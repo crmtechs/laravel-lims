@@ -108,7 +108,7 @@
                                     <th class="w-15">{{ __('annexures_master.status') }}</th>
                                     <th class="w-15">{{ __('annexures_master.publish_date') }}</th>
                                     <th class="w-15">{{ __('annexures_master.assigned_to') }}</th>
-                                    <th class="w-15">{{ __('annexures_master.date_created') }}</th>
+                                    <th class="w-15">{{ __('annexures_master.created_at') }}</th>
                                     <th class="text-end">Edit</th>
                                 </tr>
                             </thead>
@@ -146,10 +146,10 @@
                                                 <span class="badge text-bg-secondary">{{ $statusLabel }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ $annexure->publish_date ? $annexure->publish_date->format('d/m/Y') : '' }}
+                                        <td>{{ $annexure->publish_date ? $annexure->publish_date->format(config('app.date_format')) : '' }}
                                         </td>
-                                        <td>{{ $annexure->assignedUser ? $annexure->assignedUser->name : '' }}</td>
-                                        <td>{{ $annexure->created_at ? $annexure->created_at->format('d/m/Y H:i') : '' }}</td>
+                                        <td>{{ $annexure->assignedTo ? $annexure->assignedTo->name : '' }}</td>
+                                        <td>{{ $annexure->created_at ? $annexure->created_at->format(config('app.datetime_format')) : '' }}</td>
                                         <td class="text-end">
                                             <a href="{{ route('masters.annexures.edit', $annexure->uuid) }}"
                                                 class="btn btn-outline-primary btn-sm" title="Edit" wire:navigate>

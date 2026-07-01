@@ -108,7 +108,7 @@ class Index extends Component
 
     protected function getFilteredQuery()
     {
-        $query = Forms_Master::with('assignedUser')->orderBy('created_at', 'desc');
+        $query = Forms_Master::with('assignedTo')->orderBy('created_at', 'desc');
 
         if (!empty($this->active_filter_document_name))
         {
@@ -151,7 +151,7 @@ class Index extends Component
             return;
         }
 
-        $records = Forms_Master::with('assignedUser')->whereIn('uuid', $this->selected)->get();
+        $records = Forms_Master::with('assignedTo')->whereIn('uuid', $this->selected)->get();
 
         return response()->streamDownload(function () use ($records)
         {
@@ -177,10 +177,10 @@ class Index extends Component
                     $record->document_name,
                     $record->document_title,
                     $record->status,
-                    $record->publish_date ? $record->publish_date->format('Y-m-d') : '',
-                    $record->expiration_date ? $record->expiration_date->format('Y-m-d') : '',
-                    $record->assignedUser ? $record->assignedUser->name : '',
-                    $record->created_at ? $record->created_at->format('Y-m-d H:i') : '',
+                    $record->publish_date ? $record->publish_date->format(config('app.date_format')) : '',
+                    $record->expiration_date ? $record->expiration_date->format(config('app.date_format')) : '',
+                    $record->assignedTo ? $record->assignedTo->name : '',
+                    $record->created_at ? $record->created_at->format(config('app.datetime_format')) : '',
                     $record->description,
                 ]);
             }

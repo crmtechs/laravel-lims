@@ -15,6 +15,8 @@ return [
     'assigned_to' => 'Assigned To',
     'assigned_user' => 'Assigned User',
     'date_created' => 'Date Created',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
     'created_by' => 'Created By',
 
     'file_name' => 'File Name',

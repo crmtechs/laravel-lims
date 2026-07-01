@@ -74,13 +74,13 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('annexures_master.publish_date') }}</label>
                             <div class="form-control form-control-view bg-light">
-                                {{ $annexure->publish_date?->format('d/m/Y') }}
+                                {{ $annexure->publish_date?->format(config('app.date_format')) }}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('annexures_master.expiration_date') }}</label>
                             <div class="form-control form-control-view bg-light">
-                                {{ $annexure->expiration_date?->format('d/m/Y') }}
+                                {{ $annexure->expiration_date?->format(config('app.date_format')) }}
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">{{ __('annexures_master.assigned_to') }}</label>
                             <div class="form-control form-control-view bg-light">
-                                {{ $annexure->assignedUser ? $annexure->assignedUser->name : '' }}
+                                {{ $annexure->assignedTo ? $annexure->assignedTo->name : '' }}
                             </div>
                         </div>
 
@@ -101,6 +101,20 @@
                             <label class="form-label fw-bold">{{ __('annexures_master.description') }}</label>
                             <div class="form-control bg-light h-auto min-h-5rem">
                                 {{ $annexure->description ?: '' }}
+                            </div>
+                        </div>
+
+                        <!-- Row 6 -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">{{ __('annexures_master.created_at') }}</label>
+                            <div class="form-control form-control-view bg-light">
+                                {{ $annexure->created_at ? $annexure->created_at->format(config('app.datetime_format')) : '' }}{{ $annexure->createdBy ? ' by ' . $annexure->createdBy->name : '' }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">{{ __('annexures_master.updated_at') }}</label>
+                            <div class="form-control form-control-view bg-light">
+                                {{ $annexure->updated_at ? $annexure->updated_at->format(config('app.datetime_format')) : '' }}{{ $annexure->updatedBy ? ' by ' . $annexure->updatedBy->name : '' }}
                             </div>
                         </div>
                     </div>
@@ -147,7 +161,7 @@
                                                 <span class="badge bg-success ms-2">Latest</span>
                                             @endif
                                         </td>
-                                        <td class="align-middle">{{ $revision->created_at->format('d/m/Y H:i') }}</td>
+                                        <td class="align-middle">{{ $revision->created_at->format(config('app.datetime_format')) }}</td>
                                         <td class="align-middle">{{ $revision->createdUser?->name }}</td>
                                         <td class="text-center align-middle">
                                             <button type="button" wire:click="downloadRevisionFile('{{ $revision->uuid }}')"
