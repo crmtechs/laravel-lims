@@ -33,7 +33,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('masters.forms') }}" wire:navigate
+                                @class(['nav-link', 'active' => request()->routeIs('masters.forms*')])>
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Forms</p>
                             </a>

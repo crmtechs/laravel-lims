@@ -12,14 +12,17 @@ use App\Livewire\Masters\Lqms\Revisions\Show as MastersLqmsRevisionShow;
 
 Route::redirect('/', '/dashboard');
 
-Route::middleware('guest')->group(function () {
+Route::middleware('guest')->group(function ()
+{
     Route::get('/login', Login::class)->name('login');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function ()
+{
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
 
-    Route::prefix('masters/lqms')->group(function () {
+    Route::prefix('masters/lqms')->group(function ()
+    {
         Route::get('/', MastersLqmsIndex::class)->name('masters.lqms');
         Route::get('/create', MastersLqmsCreate::class)->name('masters.lqms.create');
         Route::get('/{uuid}', MastersLqmsShow::class)->name('masters.lqms.show');
@@ -28,7 +31,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/{uuid}/edit', MastersLqmsEdit::class)->name('masters.lqms.edit');
     });
 
-    Route::prefix('masters/annexures')->group(function () {
+    Route::prefix('masters/annexures')->group(function ()
+    {
         Route::get('/', \App\Livewire\Masters\Annexures\Index::class)->name('masters.annexures');
         Route::get('/create', \App\Livewire\Masters\Annexures\Create::class)->name('masters.annexures.create');
         Route::get('/{uuid}', \App\Livewire\Masters\Annexures\Show::class)->name('masters.annexures.show');
@@ -37,7 +41,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/{uuid}/edit', \App\Livewire\Masters\Annexures\Edit::class)->name('masters.annexures.edit');
     });
 
-    Route::post('/logout', function () {
+    Route::prefix('masters/forms')->group(function ()
+    {
+        Route::get('/', \App\Livewire\Masters\Forms\Index::class)->name('masters.forms');
+        Route::get('/create', \App\Livewire\Masters\Forms\Create::class)->name('masters.forms.create');
+        Route::get('/{uuid}', \App\Livewire\Masters\Forms\Show::class)->name('masters.forms.show');
+        Route::get('/{uuid}/revision/create', \App\Livewire\Masters\Forms\Revisions\Create::class)->name('masters.forms.revision.create');
+        Route::get('/{uuid}/revision/{revisionUuid}', \App\Livewire\Masters\Forms\Revisions\Show::class)->name('masters.forms.revision.show');
+        Route::get('/{uuid}/edit', \App\Livewire\Masters\Forms\Edit::class)->name('masters.forms.edit');
+    });
+
+    Route::post('/logout', function ()
+    {
         auth()->logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();

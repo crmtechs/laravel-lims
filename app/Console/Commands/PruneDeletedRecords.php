@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Models\LQMs_Master;
 use App\Models\Annexures_Master;
+use App\Models\Forms_Master;
 
 class PruneDeletedRecords extends Command
 {
@@ -23,6 +24,7 @@ class PruneDeletedRecords extends Command
 
         $this->pruneLQMs($threshold);
         $this->pruneAnnexures($threshold);
+        $this->pruneForms($threshold);
 
         $this->info("Pruning completed.");
     }
@@ -81,5 +83,33 @@ class PruneDeletedRecords extends Command
         }
 
         $this->info("Pruned {$count} Annexure records.");
+    }
+
+    protected function pruneForms($threshold)
+    {
+        $forms = Forms_Master::onlyTrashed()
+            ->with(['revisions' => function ($query)
+            {
+                $query->withTrashed();
+            }])
+            ->where('deleted_at', '<', $threshold)
+            ->get();
+
+        $count = 0;
+        foreach ($forms as $form)
+        {
+            foreach ($form->revisions as $revision)
+            {
+                if ($revision->file_path && Storage::disk('public')->exists($revision->file_path))
+                {
+                    Storage::disk('public')->delete($revision->file_path);
+                }
+                $revision->forceDelete();
+            }
+            $form->forceDelete();
+            $count++;
+        }
+
+        $this->info("Pruned {$count} Form records.");
     }
 }

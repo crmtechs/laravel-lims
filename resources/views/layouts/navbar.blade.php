@@ -27,6 +27,14 @@
                     <a href="{{ route('masters.annexures.create') }}" @class(['nav-link', 'active' => request()->routeIs('masters.annexures.create', 'masters.annexures.edit')]) wire:navigate>Create Annexure</a>
                 </li>
             @endif
+            @if (request()->routeIs('masters.forms*'))
+                <li class="nav-item d-none d-md-block">
+                    <a href="{{ route('masters.forms') }}" @class(['nav-link', 'active' => request()->routeIs('masters.forms', 'masters.forms.show')]) wire:navigate>Forms</a>
+                </li>
+                <li class="nav-item d-none d-md-block">
+                    <a href="{{ route('masters.forms.create') }}" @class(['nav-link', 'active' => request()->routeIs('masters.forms.create', 'masters.forms.edit')]) wire:navigate>Create Form</a>
+                </li>
+            @endif
         </ul>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item dropdown user-menu">
