@@ -31,6 +31,11 @@ class LQMs_Master extends Model
         'modified_user_id',
     ];
 
+    public function getPerPage()
+    {
+        return config('app.pagination_limit', 10);
+    }
+
     protected $casts = [
         'publish_date' => 'date',
         'expiration_date' => 'date',

@@ -228,9 +228,10 @@ return [
     | Pagination Theme
     |---------------------------------------------------------------------------
     |
-    | When enabling Livewire's pagination feature by using the `WithPagination`
-    | trait, Livewire will use Tailwind templates to render pagination views
-    | on the page. If you want Bootstrap CSS, you can specify: "bootstrap"
+    | When enabling pagination within your components, Livewire will default to
+    | the Tailwind CSS framework. You can change the default theme here.
+    |
+    | Supported: 'tailwind', 'bootstrap', 'bootstrap4', 'bootstrap5'
     |
     */
 

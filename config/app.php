@@ -125,4 +125,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'pagination_limit' => env('PAGINATION_LIMIT', 20),
 ];

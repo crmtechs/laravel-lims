@@ -25,6 +25,7 @@ class Index extends Component
         $this->active_filter_document_name = $this->filter_document_name;
         $this->active_filter_publish_date = $this->filter_publish_date;
         $this->active_filter_status = $this->filter_status;
+        $this->resetPage();
     }
 
     public function clearFilters()
@@ -40,6 +41,7 @@ class Index extends Component
         $this->active_filter_document_name = '';
         $this->active_filter_publish_date = '';
         $this->active_filter_status = '';
+        $this->resetPage();
     }
 
     public function delete($uuid)
@@ -69,8 +71,11 @@ class Index extends Component
             $query->where('status', $this->active_filter_status);
         }
 
+        $totalRecords = LQMs_Master::count();
+
         return view('livewire.masters.lqms.index', [
-            'lqms' => $query->paginate(10)
+            'lqms' => $query->paginate(),
+            'totalRecords' => $totalRecords
         ])->title('LQMs');
     }
 }

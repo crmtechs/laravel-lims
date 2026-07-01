@@ -19,6 +19,12 @@
                     </h2>
                 </div>
                 <div class="btn-toolbar gap-2">
+                    @if(!empty($active_filter_document_name) || !empty($active_filter_publish_date) || !empty($active_filter_status))
+                        <button type="button" class="btn btn-danger d-flex align-items-center" wire:click="resetFilters" title="Reset Filters">
+                            <i class="bi bi-arrow-counterclockwise"></i>
+                            <span class="text-uppercase ms-2">RESET</span>
+                        </button>
+                    @endif
                     <button type="button" class="btn btn-primary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#filterModal" title="Filter Records">
                         <i class="bi bi-funnel"></i>
                         <span class="text-uppercase ms-2">FILTER</span>
@@ -29,8 +35,8 @@
             <div class="card card-secondary card-outline">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover align-middle mb-0">
-                            <thead>
+                        <table class="table table-hover mb-0">
+                            <thead class="table-header-custom">
                                 <tr>
                                     <th>Document Name</th>
                                     <th>Document Title</th>
@@ -50,7 +56,7 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <i class="bi bi-file-earmark-pdf text-danger fs-5"></i>
+                                                <i class="bi bi-file-earmark-text fs-5"></i>
                                                 <a href="{{ route('masters.lqms.show', $lqm->uuid) }}"
                                                     class="btn btn-link text-decoration-none p-0 text-start fw-semibold text-dark"
                                                     wire:navigate>
@@ -94,13 +100,9 @@
                         </table>
                     </div>
                 </div>
-                @if ($lqms->hasPages())
-                    <div class="card-footer clearfix">
-                        <div class="float-end">
-                            {{ $lqms->links() }}
-                        </div>
-                    </div>
-                @endif
+                <div class="card-footer">
+                    {{ $lqms->links(data: ['totalRecords' => $totalRecords ?? null]) }}
+                </div>
             </div>
         </div>
     </div>
@@ -138,9 +140,6 @@
                     </button>
                     <button type="button" class="btn btn-secondary" wire:click="clearFilters">
                         <i class="bi bi-eraser"></i> Clear
-                    </button>
-                    <button type="button" class="btn btn-danger" wire:click="resetFilters" data-bs-dismiss="modal">
-                        <i class="bi bi-arrow-counterclockwise"></i> Reset
                     </button>
                 </div>
             </div>

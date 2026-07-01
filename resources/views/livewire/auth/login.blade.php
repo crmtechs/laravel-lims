@@ -25,7 +25,6 @@
                             aria-label="Close"></button>
                     </div>
                 @endif
-
                 <div class="input-group mb-3">
                     <div class="input-group-text bg-light">
                         <i class="bi bi-person-fill text-secondary login-input-icon-person"></i>
@@ -33,7 +32,6 @@
                     <input type="text" wire:model="username" class="form-control bg-transparent"
                         placeholder="Username" autocomplete="username" autofocus>
                 </div>
-
                 <div class="input-group mb-3">
                     <div class="input-group-text bg-light">
                         <i class="bi bi-key-fill text-secondary login-input-icon-key"></i>
@@ -41,14 +39,12 @@
                     <input type="password" wire:model="password" class="form-control bg-transparent"
                         placeholder="Password" autocomplete="current-password">
                 </div>
-
                 <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
                     <input class="form-check-input m-0" type="checkbox" wire:model="remember" id="rememberMe">
                     <label class="form-check-label text-secondary m-0" for="rememberMe">
                         Remember Me
                     </label>
                 </div>
-
                 <div wire:loading wire:target="login" class="w-100">
                     <div
                         class="alert alert-danger bg-danger text-center py-3 mb-3 d-flex flex-column align-items-center justify-content-center w-100">
@@ -56,8 +52,6 @@
                         <div class="fw-normal text-white">Please Wait, Checking Credentials</div>
                     </div>
                 </div>
-
-                <!--begin::Row-->
                 <div class="d-grid mb-3">
                     <button type="submit"
                         class="btn btn-primary py-2 d-flex align-items-center justify-content-center gap-2 fw-normal login-submit-btn"
@@ -65,13 +59,10 @@
                         <span>Sign In</span>
                     </button>
                 </div>
-                <!--end::Row-->
             </form>
-
             <div class="text-center mt-3">
                 <a href="#" class="text-decoration-none text-primary">Forgot Password?</a>
             </div>
         </div>
-        <!-- /.login-card-body -->
     </div>
 </div>
