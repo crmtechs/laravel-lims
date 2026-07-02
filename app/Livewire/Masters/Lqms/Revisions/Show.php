@@ -20,8 +20,6 @@ class Show extends Component
         if ($this->revision->lqms_master_uuid !== $this->lqm->uuid) {
             abort(404);
         }
-
-
     }
 
     public function downloadRevisionFile()

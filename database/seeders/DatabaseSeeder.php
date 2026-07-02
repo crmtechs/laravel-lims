@@ -15,32 +15,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         $users = [
             [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-                'username' => 'testuser',
-                'status' => 'active',
-            ],
-            [
                 'name' => 'Hiren Darji',
-                'email' => 'hiren.darji@example.com',
-                'username' => 'hiren.darji',
+                'email' => 'info@crmtechs.com',
+                'username' => 'crmtechs',
                 'status' => 'active',
             ],
             [
                 'name' => 'Jayant Lad',
-                'email' => 'jayant.lad@example.com',
+                'email' => 'jayant.lad@crmtechs.com',
                 'username' => 'jayant.lad',
                 'status' => 'active',
             ],
         ];
 
-        foreach ($users as $user) {
+        foreach ($users as $user)
+        {
             $existingUser = User::where('username', $user['username'])->first();
-            if (!$existingUser) {
+
+            if (!$existingUser)
+            {
                 User::factory()->create($user);
             }
         }

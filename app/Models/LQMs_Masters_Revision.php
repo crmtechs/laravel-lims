@@ -34,7 +34,7 @@ class LQMs_Masters_Revision extends Model
         return $this->belongsTo(LQMs_Master::class, 'lqms_master_uuid', 'uuid');
     }
 
-    public function createdUser()
+    public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_user_id', 'uuid');
     }

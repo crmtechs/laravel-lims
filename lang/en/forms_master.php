@@ -28,4 +28,7 @@ return [
     'no_file_uploaded' => 'No file uploaded',
     'no_records_found' => 'No Records Found',
     'no_revisions_found' => 'No revisions found',
+    'updated_by' => 'Updated By',
+    'revision_created_at' => 'Revision Created At',
+    'file_uploaded_by' => 'File Uploaded By',
 ];

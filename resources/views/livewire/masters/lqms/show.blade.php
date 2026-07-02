@@ -162,7 +162,7 @@
                                             @endif
                                         </td>
                                         <td class="align-middle">{{ $revision->created_at->format(config('app.datetime_format')) }}</td>
-                                        <td class="align-middle">{{ $revision->createdUser?->name }}</td>
+                                        <td class="align-middle">{{ $revision->createdBy?->name }}</td>
                                         <td class="text-center align-middle">
                                             <button type="button" wire:click="downloadRevisionFile('{{ $revision->uuid }}')"
                                                 class="btn btn-sm btn-outline-primary"

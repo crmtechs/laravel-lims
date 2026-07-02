@@ -151,7 +151,7 @@ class Index extends Component
             return;
         }
 
-        $records = Forms_Master::with('assignedTo')->whereIn('uuid', $this->selected)->get();
+        $records = Forms_Master::with(['assignedTo', 'createdBy', 'updatedBy', 'activeRevision.createdBy'])->whereIn('uuid', $this->selected)->get();
 
         return response()->streamDownload(function () use ($records)
         {
@@ -163,12 +163,20 @@ class Index extends Component
             fputcsv($file, [
                 __('forms_master.document_name'),
                 __('forms_master.document_title'),
+                __('forms_master.description'),
                 __('forms_master.status'),
                 __('forms_master.publish_date'),
                 __('forms_master.expiration_date'),
-                __('forms_master.assigned_user'),
-                __('forms_master.date_created'),
-                __('forms_master.description')
+                __('forms_master.assigned_to'),
+                __('forms_master.created_at'),
+                __('forms_master.created_by'),
+                __('forms_master.updated_at'),
+                __('forms_master.updated_by'),
+                __('forms_master.file_name'),
+                __('forms_master.latest_revision'),
+                __('forms_master.change_log'),
+                __('forms_master.revision_created_at'),
+                __('forms_master.file_uploaded_by')
             ]);
 
             foreach ($records as $record)
@@ -176,27 +184,29 @@ class Index extends Component
                 fputcsv($file, [
                     $record->document_name,
                     $record->document_title,
+                    $record->description,
                     $record->status,
                     $record->publish_date ? $record->publish_date->format(config('app.date_format')) : '',
                     $record->expiration_date ? $record->expiration_date->format(config('app.date_format')) : '',
                     $record->assignedTo ? $record->assignedTo->name : '',
                     $record->created_at ? $record->created_at->format(config('app.datetime_format')) : '',
-                    $record->description,
+                    $record->createdBy ? $record->createdBy->name : '',
+                    $record->updated_at ? $record->updated_at->format(config('app.datetime_format')) : '',
+                    $record->updatedBy ? $record->updatedBy->name : '',
+                    $record->activeRevision ? $record->activeRevision->file_name : '',
+                    $record->activeRevision ? $record->activeRevision->revision : '',
+                    $record->activeRevision ? $record->activeRevision->change_log : '',
+                    $record->activeRevision && $record->activeRevision->created_at ? $record->activeRevision->created_at->format(config('app.datetime_format')) : '',
+                    $record->activeRevision && $record->activeRevision->createdBy ? $record->activeRevision->createdBy->name : '',
                 ]);
             }
             fclose($file);
         }, 'forms_export_' . date('Ymd_His') . '.csv');
     }
-
     public function render()
     {
-        $query = $this->getFilteredQuery();
-
-        $totalRecords = Forms_Master::count();
-
         return view('livewire.masters.forms.index', [
-            'forms' => $query->paginate(),
-            'totalRecords' => $totalRecords
-        ])->title('Forms');
+            'forms' => $this->getFilteredQuery()->paginate()
+        ]);
     }
 }

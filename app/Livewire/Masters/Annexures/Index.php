@@ -144,7 +144,7 @@ class Index extends Component
             return;
         }
 
-        $records = Annexures_Master::with('assignedTo')->whereIn('uuid', $this->selected)->get();
+        $records = Annexures_Master::with(['assignedTo', 'createdBy', 'updatedBy', 'activeRevision.createdBy'])->whereIn('uuid', $this->selected)->get();
 
         return response()->streamDownload(function () use ($records) {
             $file = fopen('php://output', 'w');
@@ -155,39 +155,50 @@ class Index extends Component
             fputcsv($file, [
                 __('annexures_master.document_name'),
                 __('annexures_master.document_title'),
+                __('annexures_master.description'),
                 __('annexures_master.status'),
                 __('annexures_master.publish_date'),
                 __('annexures_master.expiration_date'),
-                __('annexures_master.assigned_user'),
-                __('annexures_master.date_created'),
-                __('annexures_master.description')
+                __('annexures_master.assigned_to'),
+                __('annexures_master.created_at'),
+                __('annexures_master.created_by'),
+                __('annexures_master.updated_at'),
+                __('annexures_master.updated_by'),
+                __('annexures_master.file_name'),
+                __('annexures_master.latest_revision'),
+                __('annexures_master.change_log'),
+                __('annexures_master.revision_created_at'),
+                __('annexures_master.file_uploaded_by')
             ]);
 
-            foreach ($records as $record) {
+            foreach ($records as $record)
+            {
                 fputcsv($file, [
                     $record->document_name,
                     $record->document_title,
+                    $record->description,
                     $record->status,
                     $record->publish_date ? $record->publish_date->format(config('app.date_format')) : '',
                     $record->expiration_date ? $record->expiration_date->format(config('app.date_format')) : '',
                     $record->assignedTo ? $record->assignedTo->name : '',
                     $record->created_at ? $record->created_at->format(config('app.datetime_format')) : '',
-                    $record->description,
+                    $record->createdBy ? $record->createdBy->name : '',
+                    $record->updated_at ? $record->updated_at->format(config('app.datetime_format')) : '',
+                    $record->updatedBy ? $record->updatedBy->name : '',
+                    $record->activeRevision ? $record->activeRevision->file_name : '',
+                    $record->activeRevision ? $record->activeRevision->revision : '',
+                    $record->activeRevision ? $record->activeRevision->change_log : '',
+                    $record->activeRevision && $record->activeRevision->created_at ? $record->activeRevision->created_at->format(config('app.datetime_format')) : '',
+                    $record->activeRevision && $record->activeRevision->createdBy ? $record->activeRevision->createdBy->name : '',
                 ]);
             }
             fclose($file);
         }, 'annexures_export_' . date('Ymd_His') . '.csv');
     }
-
     public function render()
     {
-        $query = $this->getFilteredQuery();
-
-        $totalRecords = Annexures_Master::count();
-
         return view('livewire.masters.annexures.index', [
-            'annexures' => $query->paginate(),
-            'totalRecords' => $totalRecords
-        ])->title('Annexures');
+            'annexures' => $this->getFilteredQuery()->paginate()
+        ]);
     }
 }

@@ -34,7 +34,7 @@ class Annexures_Masters_Revision extends Model
         return $this->belongsTo(Annexures_Master::class, 'annexures_master_uuid', 'uuid');
     }
 
-    public function createdUser()
+    public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_user_id', 'uuid');
     }

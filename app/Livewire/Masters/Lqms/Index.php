@@ -144,7 +144,7 @@ class Index extends Component
             return;
         }
 
-        $records = LQMs_Master::with('assignedTo')->whereIn('uuid', $this->selected)->get();
+        $records = LQMs_Master::with(['assignedTo', 'createdBy', 'updatedBy', 'activeRevision.createdBy'])->whereIn('uuid', $this->selected)->get();
 
         return response()->streamDownload(function () use ($records) {
             $file = fopen('php://output', 'w');
@@ -155,39 +155,50 @@ class Index extends Component
             fputcsv($file, [
                 __('lqms_master.document_name'),
                 __('lqms_master.document_title'),
+                __('lqms_master.description'),
                 __('lqms_master.status'),
                 __('lqms_master.publish_date'),
                 __('lqms_master.expiration_date'),
-                __('lqms_master.assigned_user'),
-                __('lqms_master.date_created'),
-                __('lqms_master.description')
+                __('lqms_master.assigned_to'),
+                __('lqms_master.created_at'),
+                __('lqms_master.created_by'),
+                __('lqms_master.updated_at'),
+                __('lqms_master.updated_by'),
+                __('lqms_master.file_name'),
+                __('lqms_master.latest_revision'),
+                __('lqms_master.change_log'),
+                __('lqms_master.revision_created_at'),
+                __('lqms_master.file_uploaded_by')
             ]);
 
-            foreach ($records as $record) {
+            foreach ($records as $record)
+            {
                 fputcsv($file, [
                     $record->document_name,
                     $record->document_title,
+                    $record->description,
                     $record->status,
                     $record->publish_date ? $record->publish_date->format(config('app.date_format')) : '',
                     $record->expiration_date ? $record->expiration_date->format(config('app.date_format')) : '',
                     $record->assignedTo ? $record->assignedTo->name : '',
                     $record->created_at ? $record->created_at->format(config('app.datetime_format')) : '',
-                    $record->description,
+                    $record->createdBy ? $record->createdBy->name : '',
+                    $record->updated_at ? $record->updated_at->format(config('app.datetime_format')) : '',
+                    $record->updatedBy ? $record->updatedBy->name : '',
+                    $record->activeRevision ? $record->activeRevision->file_name : '',
+                    $record->activeRevision ? $record->activeRevision->revision : '',
+                    $record->activeRevision ? $record->activeRevision->change_log : '',
+                    $record->activeRevision && $record->activeRevision->created_at ? $record->activeRevision->created_at->format(config('app.datetime_format')) : '',
+                    $record->activeRevision && $record->activeRevision->createdBy ? $record->activeRevision->createdBy->name : '',
                 ]);
             }
             fclose($file);
         }, 'lqms_export_' . date('Ymd_His') . '.csv');
     }
-
     public function render()
     {
-        $query = $this->getFilteredQuery();
-
-        $totalRecords = LQMs_Master::count();
-
         return view('livewire.masters.lqms.index', [
-            'lqms' => $query->paginate(),
-            'totalRecords' => $totalRecords
-        ])->title('LQMs');
+            'lqms' => $this->getFilteredQuery()->paginate()
+        ]);
     }
 }
