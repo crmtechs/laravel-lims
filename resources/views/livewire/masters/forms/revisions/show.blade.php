@@ -30,7 +30,7 @@
             <!-- Revision Details Panel -->
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title fw-semibold">{{ __('forms_master.revision_details') }}</h3>
+                    <h3 class="card-title fw-semibold">{{ __('global.revision_details') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -51,7 +51,7 @@
                                 <div class="input-group">
                                     <div class="form-control bg-light text-dark text-truncate">{{ $revision->file_name }}</div>
                                     <a wire:click="downloadRevisionFile" class="input-group-text text-decoration-none cursor-pointer" role="button" title="Download">
-                                        <i class="bi bi-download me-1"></i> {{ __('forms_master.download') }}
+                                        <i class="bi bi-download me-1"></i> {{ __('global.download') }}
                                     </a>
                                 </div>
                             @else
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">{{ __('forms_master.created_at') }}</label>
+                            <label class="form-label fw-bold">{{ __('global.created_at') }}</label>
                             <div class="form-control form-control-view bg-light">
                                 {{ $revision->created_at->format(config('app.datetime_format')) }}{{ $revision->createdBy ? ' by ' . $revision->createdBy->name : '' }}
                             </div>

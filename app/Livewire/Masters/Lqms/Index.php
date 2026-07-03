@@ -105,7 +105,7 @@ class Index extends Component
 
     protected function getFilteredQuery()
     {
-        $query = LQMs_Master::with('assignedTo')->orderBy('created_at', 'desc');
+        $query = LQMs_Master::with(['assignedTo', 'activeRevision'])->orderBy('created_at', 'desc');
 
         if (!empty($this->active_filter_document_name)) {
             $query->where('document_name', 'like', '%' . $this->active_filter_document_name . '%');
@@ -148,7 +148,7 @@ class Index extends Component
 
         return response()->streamDownload(function () use ($records) {
             $file = fopen('php://output', 'w');
-            
+
             // Add UTF-8 BOM for proper Excel rendering
             fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
 
@@ -159,16 +159,16 @@ class Index extends Component
                 __('lqms_master.status'),
                 __('lqms_master.publish_date'),
                 __('lqms_master.expiration_date'),
-                __('lqms_master.assigned_to'),
-                __('lqms_master.created_at'),
-                __('lqms_master.created_by'),
-                __('lqms_master.updated_at'),
-                __('lqms_master.updated_by'),
+                __('global.assigned_to'),
+                __('global.created_at'),
+                __('global.created_by'),
+                __('global.updated_at'),
+                __('global.updated_by'),
                 __('lqms_master.file_name'),
                 __('lqms_master.latest_revision'),
                 __('lqms_master.change_log'),
                 __('lqms_master.revision_created_at'),
-                __('lqms_master.file_uploaded_by')
+                __('lqms_master.file_uploaded_by'),
             ]);
 
             foreach ($records as $record)
@@ -198,7 +198,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.masters.lqms.index', [
-            'lqms' => $this->getFilteredQuery()->paginate()
+            'lqms' => $this->getFilteredQuery()->paginate(),
         ]);
     }
 }

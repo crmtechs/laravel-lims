@@ -18,17 +18,17 @@
                             <span class="visually-hidden">Loading...</span>
                         </div>
                         <i wire:loading.remove wire:target="save" class="bi bi-save me-2"></i>
-                        <span class="text-uppercase">SAVE</span>
+                        <span class="text-uppercase">{{ strtoupper(__('global.save')) }}</span>
                     </button>
                     <a href="{{ route('masters.forms.show', $form->uuid) }}" wire:navigate class="btn btn-danger d-flex align-items-center">
                         <i class="bi bi-caret-left-square"></i>
-                        <span class="text-uppercase ms-2">CANCEL</span>
+                        <span class="text-uppercase ms-2">{{ strtoupper(__('global.cancel')) }}</span>
                     </a>
                 </div>
             </div>
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h3 class="card-title fw-semibold">{{ __('forms_master.revision_details') }}</h3>
+                        <h3 class="card-title fw-semibold">{{ __('global.revision_details') }}</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">

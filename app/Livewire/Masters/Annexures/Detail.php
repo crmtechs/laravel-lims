@@ -1,38 +1,38 @@
 <?php
 
-namespace App\Livewire\Masters\Lqms;
+namespace App\Livewire\Masters\Annexures;
 
 use Livewire\Component;
-use App\Models\LQMs_Master;
-use App\Models\LQMs_Masters_Revision;
+use App\Models\Annexures_Master;
+use App\Models\Annexures_Masters_Revision;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use App\Models\User;
 
-class Show extends Component
+class Detail extends Component
 {
-    public $lqm;
-    public $lqm_revisions;
+    public $annexure;
+    public $annexure_revisions;
 
     public function mount($uuid)
     {
-        $this->lqm = LQMs_Master::findOrFail($uuid);
-        $this->lqm_revisions = LQMs_Masters_Revision::where('lqms_master_uuid', $uuid)->orderByDesc('created_at')->get();
+        $this->annexure = Annexures_Master::findOrFail($uuid);
+        $this->annexure_revisions = Annexures_Masters_Revision::where('annexures_master_uuid', $uuid)->orderByDesc('created_at')->get();
     }
 
     public function delete()
     {
-        $this->lqm->delete();
-        session()->flash('success', 'LQM record deleted successfully.');
-        return $this->redirectRoute('masters.lqms', navigate: true);
+        $this->annexure->delete();
+        session()->flash('success', 'Annexure record deleted successfully.');
+        return $this->redirectRoute('masters.annexures', navigate: true);
     }
 
     public function downloadFile()
     {
-        $activeRevision = $this->lqm->activeRevision;
+        $activeRevision = $this->annexure->activeRevision;
         if ($activeRevision && $activeRevision->file_path && Storage::disk('public')->exists($activeRevision->file_path))
         {
-            $downloadName = $activeRevision->file_name ?? $this->lqm->document_name;
+            $downloadName = $activeRevision->file_name ?? $this->annexure->document_name;
             return Storage::disk('public')->download($activeRevision->file_path, $downloadName);
         }
         session()->flash('error', 'File not found on storage.');
@@ -40,7 +40,7 @@ class Show extends Component
 
     public function downloadRevisionFile($revisionUuid)
     {
-        $revision = LQMs_Masters_Revision::findOrFail($revisionUuid);
+        $revision = Annexures_Masters_Revision::findOrFail($revisionUuid);
         if ($revision->file_path && Storage::disk('public')->exists($revision->file_path))
         {
             return Storage::disk('public')->download($revision->file_path, $revision->file_name);
@@ -50,8 +50,8 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.masters.lqms.show', [
+        return view('livewire.masters.annexures.detail', [
             'users' => User::all(),
-        ])->title('Show LQM');
+        ])->title('Show Annexure');
     }
 }

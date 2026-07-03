@@ -16,11 +16,11 @@
         <div class="btn-toolbar gap-2">
             <button type="button" wire:click="save" class="btn btn-primary d-flex align-items-center">
                 <i class="bi bi-save"></i>
-                <span class="text-uppercase ms-2">SAVE</span>
+                <span class="text-uppercase ms-2">{{ strtoupper(__('global.save')) }}</span>
             </button>
             <a href="{{ route('masters.lqms') }}" wire:navigate class="btn btn-danger d-flex align-items-center">
                 <i class="bi bi-caret-left-square"></i>
-                <span class="text-uppercase ms-2">CANCEL</span>
+                <span class="text-uppercase ms-2">{{ strtoupper(__('global.cancel')) }}</span>
             </a>
         </div>
     </div>
@@ -40,7 +40,7 @@
                             <div class="input-group">
                                 <div class="form-control form-control-view bg-light text-truncate">{{ $existing_file_name ?? __('lqms_master.no_file_uploaded') }}</div>
                                 <a wire:click="downloadFile" class="input-group-text text-decoration-none" role="button" style="cursor: pointer;" title="Download">
-                                    <i class="bi bi-download me-1"></i> {{ __('lqms_master.download') }}
+                                    <i class="bi bi-download me-1"></i> {{ __('global.download') }}
                                 </a>
                             </div>
                         @else
@@ -119,7 +119,7 @@
                     @enderror
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label class="form-label fw-bold">{{ __('lqms_master.assigned_user') }} <span class="text-danger">*</span></label>
+                    <label class="form-label fw-bold">{{ __('global.assigned_user') }} <span class="text-danger">*</span></label>
                     <div wire:ignore x-data="choicesSelect('assigned_user_id')">
                         <select x-ref="select" class="form-control @error('assigned_user_id') is-invalid @enderror">
                             @foreach ($users as $user)

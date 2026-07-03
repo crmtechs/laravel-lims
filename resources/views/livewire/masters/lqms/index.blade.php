@@ -20,15 +20,15 @@
                 </div>
                 <div class="btn-toolbar gap-2">
                     @if(count($selected) > 0)
-                        <button type="button" class="btn btn-success d-flex align-items-center" wire:click="exportSelected" title="Export Selected">
+                        <button type="button" class="btn btn-success d-flex align-items-center" wire:click="exportSelected" title="{{ __('global.export') }} Selected">
                             <i class="bi bi-file-earmark-excel"></i>
-                            <span class="text-uppercase ms-2">EXPORT ({{ count($selected) }})</span>
+                            <span class="text-uppercase ms-2">{{ strtoupper(__('global.export')) }} ({{ count($selected) }})</span>
                         </button>
                     @endif
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary d-flex align-items-center" @click="showFilters = true" title="Filter Records">
+                        <button type="button" class="btn btn-primary d-flex align-items-center" @click="showFilters = true" title="{{ __('global.filter_records') }}">
                             <i class="bi bi-funnel"></i>
-                            <span class="text-uppercase ms-2">FILTER</span>
+                            <span class="text-uppercase ms-2">{{ __('global.filter') }}</span>
                         </button>
                         @if($this->hasActiveFilters())
                             <button type="button" class="btn btn-primary d-flex align-items-center border-start border-white border-opacity-25" wire:click="resetFilters" title="Reset Filters">
@@ -42,16 +42,16 @@
             <!-- Inline Filters -->
             <div x-show="showFilters" x-transition x-cloak class="card card-secondary card-outline mb-4">
                 <div class="card-header">
-                    <h3 class="card-title fw-semibold mt-1"><i class="bi bi-funnel me-2"></i>Filter Records</h3>
+                    <h3 class="card-title fw-semibold mt-1"><i class="bi bi-funnel me-2"></i>{{ __('global.filter_records') }}</h3>
                     <div class="card-tools">
                         <div class="btn-toolbar gap-2 me-2">
                             <button type="button" class="btn btn-sm btn-primary d-flex align-items-center" wire:click="applyFilters">
                                 <i class="bi bi-search"></i>
-                                <span class="text-uppercase ms-2">SEARCH</span>
+                                <span class="text-uppercase ms-2">{{ __('global.search') }}</span>
                             </button>
                             <button type="button" class="btn btn-sm btn-secondary d-flex align-items-center" wire:click="clearFilters">
                                 <i class="bi bi-eraser"></i>
-                                <span class="text-uppercase ms-2">CLEAR</span>
+                                <span class="text-uppercase ms-2">{{ __('global.clear') }}</span>
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-danger" @click="showFilters = false" title="Close">
                                 <i class="bi bi-x-lg"></i>
@@ -73,7 +73,7 @@
                             <label class="form-label fw-bold">{{ __('lqms_master.status') }}</label>
                             <div wire:ignore x-data="choicesSelect('filter_status')">
                                 <select x-ref="select" class="form-select">
-                                    <option value="">{{ __('lqms_master.all_statuses') }}</option>
+                                    <option value="">{{ __('global.all_statuses') }}</option>
                                     @foreach(config('dropdowns.document_status_list') as $key => $label)
                                         <option value="{{ $key }}" @if($filter_status == $key) selected @endif>{{ $label }}</option>
                                     @endforeach
@@ -96,28 +96,25 @@
                                                 <i class="bi bi-check2-square fs-5"></i>
                                             </button>
                                             <ul class="dropdown-menu shadow text-sm">
-                                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectPage">Select This Page ({{ $lqms->count() }})</a></li>
-                                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectAll">Select All ({{ $lqms->total() }})</a></li>
+                                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectPage">{{ __('global.select_this_page') }} ({{ $lqms->count() }})</a></li>
+                                                <li><a class="dropdown-item" href="#" wire:click.prevent="selectAll">{{ __('global.select_all') }} ({{ $lqms->total() }})</a></li>
                                                 <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item" href="#" wire:click.prevent="deselectAll">Deselect All</a></li>
+                                                <li><a class="dropdown-item" href="#" wire:click.prevent="deselectAll">{{ __('global.deselect_all') }}</a></li>
                                             </ul>
                                         </div>
                                     </th>
                                     <th class="w-20">{{ __('lqms_master.document_name') }}</th>
                                     <th class="w-20">{{ __('lqms_master.document_title') }}</th>
-                                    <th class="w-15">{{ __('lqms_master.status') }}</th>
+                                    <th class="w-10">{{ __('lqms_master.status') }}</th>
+                                    <th class="w-10">{{ __('lqms_master.latest_revision') }}</th>
                                     <th class="w-15">{{ __('lqms_master.publish_date') }}</th>
-                                    <th class="w-15">{{ __('lqms_master.assigned_to') }}</th>
-                                    <th class="w-15">{{ __('lqms_master.created_at') }}</th>
-                                    <th class="text-end">Edit</th>
+                                    <th class="w-10">{{ __('global.assigned_to') }}</th>
+                                    <th class="w-25">{{ __('global.created_at') }}</th>
+                                    <th class="text-end">{{ __('global.edit') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($lqms as $lqm)
-                                    @php
-                                        $statusKey = strtolower($lqm->status);
-                                        $statusLabel = config('dropdowns.document_status_list.'.$statusKey, $lqm->status);
-                                    @endphp
                                     <tr wire:key="lqm-{{ $lqm->uuid }}">
                                         <td>
                                             <input type="checkbox" wire:key="checkbox-{{ $lqm->uuid }}" wire:model.live="selected" value="{{ $lqm->uuid }}" class="form-check-input cursor-pointer">
@@ -134,6 +131,10 @@
                                         </td>
                                         <td>{{ $lqm->document_title ?: '' }}</td>
                                         <td>
+                                            @php
+                                                $statusKey = strtolower($lqm->status);
+                                                $statusLabel = config('dropdowns.document_status_list.'.$statusKey, $lqm->status);
+                                            @endphp
                                             @if ($statusKey === 'active')
                                                 <span class="badge text-bg-success">{{ $statusLabel }}</span>
                                             @elseif($statusKey === 'draft')
@@ -146,13 +147,13 @@
                                                 <span class="badge text-bg-secondary">{{ $statusLabel }}</span>
                                             @endif
                                         </td>
-                                        <td>{{ $lqm->publish_date ? $lqm->publish_date->format(config('app.date_format')) : '' }}
-                                        </td>
+                                        <td>{{ $lqm->activeRevision ? $lqm->activeRevision->revision : '' }}</td>
+                                        <td>{{ $lqm->publish_date ? $lqm->publish_date->format(config('app.date_format')) : '' }}</td>
                                         <td>{{ $lqm->assignedTo ? $lqm->assignedTo->name : '' }}</td>
                                         <td>{{ $lqm->created_at ? $lqm->created_at->format(config('app.datetime_format')) : '' }}</td>
                                         <td class="text-end">
                                             <a href="{{ route('masters.lqms.edit', $lqm->uuid) }}"
-                                                class="btn btn-outline-primary btn-sm" title="Edit" wire:navigate>
+                                                class="btn btn-outline-primary btn-sm" title="{{ __('global.edit') }}" wire:navigate>
                                                 <i class="bi bi-pencil"></i>
                                             </a>
                                         </td>
@@ -160,7 +161,7 @@
                                 @empty
                                     <tr>
                                         <td colspan="8" class="text-center py-2 text-secondary">
-                                            {{ __('lqms_master.no_records_found') }}
+                                            {{ __('global.no_records_found') }}
                                         </td>
                                     </tr>
                                 @endforelse
